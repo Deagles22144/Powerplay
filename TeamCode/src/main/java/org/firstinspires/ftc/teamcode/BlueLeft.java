@@ -16,8 +16,8 @@ public class BlueLeft extends QRcode{
 
 
         waitForStart();
-        arm.setPosition(0.02);
 
+        arm.setPosition(0.02);
 
         if (tagOfInterest == null || tagOfInterest.id == left) {
             //left code

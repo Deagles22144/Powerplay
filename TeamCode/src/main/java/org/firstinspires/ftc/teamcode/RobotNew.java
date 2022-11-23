@@ -33,7 +33,7 @@ public abstract class RobotNew extends LinearOpMode {
 
     public DcMotor lf, rf, lb, rb, elevator;
     public Servo claw, tilt, arm;
-    public ElapsedTime runtime;
+    public ElapsedTime runtime = new ElapsedTime();
 
 
     static final double COUNTS_PER_MOTOR_REV = 537.7;
@@ -130,7 +130,6 @@ public abstract class RobotNew extends LinearOpMode {
             deltaAngle -= 360;
 
         globalAngle += deltaAngle;
-
         lastAngles = angles;
 
         return globalAngle;
@@ -138,11 +137,11 @@ public abstract class RobotNew extends LinearOpMode {
 
 
     public void RotateP(int degrees, double power, double timeoutR, double KP) {
-        //  runtime.reset();
 
+        runtime.reset();
 
         if (getAngle() < degrees) {
-            while (getAngle() < degrees /*&&  runtime.seconds() < timeoutR*/) {
+            while ((getAngle() < degrees) &&  (runtime.seconds() < timeoutR)) {
                 double error = degrees - getAngle();
 
                 lf.setPower(-power * error * KP);
@@ -155,14 +154,13 @@ public abstract class RobotNew extends LinearOpMode {
 
             }
         } else if (getAngle() > degrees) {
-            while (getAngle() > degrees /*&& runtime.seconds() < timeoutR*/) {
+            while ((getAngle() > degrees) && (runtime.seconds() < timeoutR)) {
                 double error = getAngle() - degrees;
 
                 lf.setPower(power * error * KP);
                 lb.setPower(power * error * KP);
                 rf.setPower(-power * error * KP);
                 rb.setPower(-power * error * KP);
-
 
             }
         } else return;
@@ -171,12 +169,12 @@ public abstract class RobotNew extends LinearOpMode {
         lb.setPower(0);
         rf.setPower(0);
         rb.setPower(0);
-
     }
 
 
     public void encoderDriveP(double speed, double LeftFrontCM, double LeftBackCM, double RightFrontCM, double RightBackCM, double KP, double TimeOut) {
-        //  runtime.reset();
+
+        runtime.reset();
 
         double error = LeftFrontCM - lf.getCurrentPosition();
         int newLeftFrontTarget = 0;
@@ -205,7 +203,10 @@ public abstract class RobotNew extends LinearOpMode {
 
         // reset the timeout time and start motion.
 
-        while ((newLeftFrontTarget >= lf.getCurrentPosition() /*&& runtime.seconds() < TimeOut*/) && (newLeftBackTarget >= lb.getCurrentPosition() /*&& runtime.seconds() < TimeOut*/) && (newRightFrontTarget >= rf.getCurrentPosition() /*&& runtime.seconds() < TimeOut*/) && (newRightBackTarget >= rb.getCurrentPosition() /*&& runtime.seconds() < TimeOut*/) || (newLeftFrontTarget <= lf.getCurrentPosition() /*&& runtime.seconds() < TimeOut*/) && (newLeftBackTarget <= lb.getCurrentPosition() /*&& runtime.seconds() < TimeOut*/) && (newRightFrontTarget <= rf.getCurrentPosition() /*&& runtime.seconds() < TimeOut*/) && (newRightBackTarget <= rb.getCurrentPosition() /*&& runtime.seconds() < TimeOut*/)) {
+        while ((newLeftFrontTarget >= lf.getCurrentPosition() && runtime.seconds() < TimeOut) && (newLeftBackTarget >= lb.getCurrentPosition() && runtime.seconds() < TimeOut)
+                && (newRightFrontTarget >= rf.getCurrentPosition() && runtime.seconds() < TimeOut) && (newRightBackTarget >= rb.getCurrentPosition() && runtime.seconds() < TimeOut)
+                || (newLeftFrontTarget <= lf.getCurrentPosition() && runtime.seconds() < TimeOut) && (newLeftBackTarget <= lb.getCurrentPosition() && runtime.seconds() < TimeOut)
+                && (newRightFrontTarget <= rf.getCurrentPosition() && runtime.seconds() < TimeOut) && (newRightBackTarget <= rb.getCurrentPosition() && runtime.seconds() < TimeOut)) {
 
             error = newLeftFrontTarget - lf.getCurrentPosition();
 

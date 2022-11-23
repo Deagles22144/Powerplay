@@ -16,7 +16,7 @@ public class TeleopMecanum extends RobotNew {
 
         //elapsedTime.time(TimeUnit.SECONDS);
         double y = -gamepad1.left_stick_y; // Remember, this is reversed!
-        double x = gamepad1.left_stick_x;
+        double x = gamepad1.left_stick_x * 1.1;
         double rx = gamepad1.right_stick_x;
 
         claw.setPosition(clawOpen);
@@ -111,7 +111,7 @@ public class TeleopMecanum extends RobotNew {
         if (rightBumper) {
             ToggleClaw();
         }
-        if (elapsedTime.seconds() >= 0.45 && timerBrake && claw.getPosition() == clawClose) {
+        if (elapsedTime.seconds() >= 0.3 && timerBrake && claw.getPosition() == clawClose) {
             arm.setPosition(0.02);
         }
 

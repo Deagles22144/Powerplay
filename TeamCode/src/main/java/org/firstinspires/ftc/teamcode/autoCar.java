@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous (name="autoCar", group="Robot")
 public class autoCar extends QRcode{
@@ -14,22 +15,27 @@ public class autoCar extends QRcode{
             QrScan();
 
         }
-
-
         waitForStart();
+
         arm.setPosition(0.02);
-        encoderDriveP(0.25, -130, -130, -130, -130, 0.0025,2 );
+        encoderDriveP(0.25, -125, -125, -125, -125, 0.003,5 );
         sleep(500);
-        RotateP(127, 1, 2, 0.0165);
-        elevatorHigh();
-        tiltControl();
+        RotateP(137, 1, 3.5, 0.0168);
+        //Elevator High
+        elevator.setTargetPosition(high);
+        arm.setPosition(0.081);
+        tilt.setPosition(0.018);
+        elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        elevator.setPower(0.7);
+
         sleep(1500);
-        encoderDriveP(0.15, 14, 14,   14, 14, 0.015,2 );
+        encoderDriveP(0.075, 17, 17,   17, 17, 0.01,2.5  );
         sleep(500);
         claw.setPosition(clawOpen);
         sleep(1000);
         elevatorGround();
         tiltControl();
+        sleep(500);
         if (tagOfInterest == null || tagOfInterest.id == left) {
             //left code
             RotateP(0, 1,1.5,0.03);
