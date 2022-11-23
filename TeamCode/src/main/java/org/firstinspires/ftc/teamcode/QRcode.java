@@ -108,11 +108,12 @@ public class QRcode extends RobotNew
     @Override
     public void runOpMode() {
         super.runOpMode();
-        /*
+
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        // Technically this is the default, however specifying it is clearer
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        // Without this, data retrieving from the IMU throws an exception
         imu.initialize(parameters);
-*/
 
     int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);

@@ -99,11 +99,11 @@ public abstract class RobotNew extends LinearOpMode {
 
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+       /* BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         // Technically this is the default, however specifying it is clearer
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         // Without this, data retrieving from the IMU throws an exception
-        imu.initialize(parameters);
+        imu.initialize(parameters);*/
 
 
         claw.setPosition(clawClose);

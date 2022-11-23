@@ -13,12 +13,6 @@ public class TeleopMecanum extends RobotNew {
     @Override
     public void runOpMode() {
         super.runOpMode();
-        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        // Technically this is the default, however specifying it is clearer
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        // Without this, data retrieving from the IMU throws an exception
-        imu.initialize(parameters);
 
         //elapsedTime.time(TimeUnit.SECONDS);
         double y = -gamepad1.left_stick_y; // Remember, this is reversed!
@@ -32,7 +26,7 @@ public class TeleopMecanum extends RobotNew {
         while (opModeIsActive() && !isStopRequested()) {
 
 
-            double botHeading = Math.toRadians(-imu.getAngularOrientation().firstAngle);
+            double botHeading = Math.toRadians(-imu.getAngularOrientation().firstAngle) - Math.PI;
 
             double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
             double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
@@ -54,12 +48,12 @@ public class TeleopMecanum extends RobotNew {
             boolean rightBumper = gamepad1.right_bumper;
 
 
-            if (gamepad1.circle){
+            /*if (gamepad1.circle){
                 parameters = new BNO055IMU.Parameters();
                 parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
                 imu.initialize(parameters);
             }
-
+*/
             tiltControl();
 
             if (gamepad2.left_stick_y<0 && arm.getPosition()<0.11){
