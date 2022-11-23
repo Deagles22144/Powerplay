@@ -86,7 +86,7 @@ public abstract class RobotNew extends LinearOpMode {
         lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        elevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        elevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         arm.setDirection(Servo.Direction.REVERSE);
 
