@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous (name="BlueLeft", group="Robot")
-public class BlueLeft extends QRcode{
+@Autonomous (name="ParkingAuto", group="Robot")
+public class ParkingAuto extends QRcode{
 
 
     @Override

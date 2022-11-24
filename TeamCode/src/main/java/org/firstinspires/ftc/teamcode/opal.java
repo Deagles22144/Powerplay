@@ -1,15 +1,19 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+@Disabled
 @TeleOp(name="opal", group="Robot")
-public class opal extends Robot {
+public class opal extends RobotNew {
 
     @Override
     public void runOpMode() {
         super.runOpMode();
+
         waitForStart();
+
         while (opModeIsActive() && !isStopRequested()) {
             float x = gamepad1.left_stick_x;
             float y = -gamepad1.left_stick_y;
