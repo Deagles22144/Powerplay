@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 
 public abstract class RobotNew extends LinearOpMode {
@@ -31,6 +31,7 @@ public abstract class RobotNew extends LinearOpMode {
     double globalAngle = 0, power = .30, correction;
 
 
+    public SampleMecanumDrive drive;
     public DcMotor lf, rf, lb, rb, elevator,elevatorr;
     public Servo claw, tilt, arm;
     public ElapsedTime runtime = new ElapsedTime();
@@ -51,11 +52,7 @@ public abstract class RobotNew extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        lf = hardwareMap.dcMotor.get("lf");
-        rf = hardwareMap.dcMotor.get("rf");
-        lb = hardwareMap.dcMotor.get("lb");
-        rb = hardwareMap.dcMotor.get("rb");
-
+       drive = new SampleMecanumDrive(hardwareMap);
 
         elevator = hardwareMap.dcMotor.get("elevator");
         elevatorr = hardwareMap.dcMotor.get("elevator");
