@@ -31,7 +31,7 @@ public abstract class RobotNew extends LinearOpMode {
     double globalAngle = 0, power = .30, correction;
 
 
-    public DcMotor lf, rf, lb, rb, elevator;
+    public DcMotor lf, rf, lb, rb, elevator,elevatorr;
     public Servo claw, tilt, arm;
     public ElapsedTime runtime = new ElapsedTime();
 
@@ -58,6 +58,7 @@ public abstract class RobotNew extends LinearOpMode {
 
 
         elevator = hardwareMap.dcMotor.get("elevator");
+        elevatorr = hardwareMap.dcMotor.get("elevator");
 
         claw = hardwareMap.servo.get("claw");
         tilt = hardwareMap.servo.get("tilt");
@@ -71,12 +72,13 @@ public abstract class RobotNew extends LinearOpMode {
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         elevator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        elevatorr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         lf.setDirection(DcMotorSimple.Direction.REVERSE);
         lb.setDirection(DcMotorSimple.Direction.REVERSE);
 
         elevator.setDirection(DcMotorSimple.Direction.REVERSE);
+        elevatorr.setDirection(DcMotorSimple.Direction.REVERSE);
 
         tilt.setDirection(Servo.Direction.FORWARD);
 
@@ -96,7 +98,7 @@ public abstract class RobotNew extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         elevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        elevatorr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
        /* BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();

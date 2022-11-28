@@ -118,7 +118,6 @@ public class TeleopMecanum extends RobotNew {
         if (!rightBumper) {
             wasPressed = true;
         }
-
         telemetry.addLine("elevator is at: " + elevator.getCurrentPosition());
         telemetry.addLine("Arm is at: " + arm.getPosition());
         telemetry.addLine("timer: " + elapsedTime.seconds());
