@@ -22,7 +22,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -116,7 +115,8 @@ public class QRcode extends RobotNew
         // Without this, data retrieving from the IMU throws an exception
         imu.initialize(parameters);
 
-        elevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        elevator0.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        elevator1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());

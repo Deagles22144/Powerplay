@@ -17,6 +17,6 @@ public class Nothing extends QRcode{
 
         waitForStart();
 
-        arm.setPosition(0.02);
+        armPos(0.02);
         }
     }

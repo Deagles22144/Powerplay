@@ -14,14 +14,21 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-
 public abstract class RobotNew extends LinearOpMode {
     int high = 1650;
     int mid = 1000;
     int low = 160;
     int ground = 0;
-    double clawClose = 0.05;
-    double clawOpen = 0.03;
+
+    public static double clawClose = 0.06;
+    public static double clawOpen = 0.04;
+
+    public static double tiltHigh = 0.0;
+    public static double tiltMid = 0.0;
+    public static double tiltLow = 0.0;
+    public static double tiltGround = 0.0;
+
+
 
 
     public BNO055IMU imu;
@@ -32,8 +39,8 @@ public abstract class RobotNew extends LinearOpMode {
 
 
     public SampleMecanumDrive drive;
-    public DcMotor lf, rf, lb, rb, elevator,elevatorr;
-    public Servo claw, tilt, arm;
+    public DcMotor /*lf, rf, lb, rb,*/ elevator0,elevator1;
+    public Servo claw, tilt, arm0, arm1;
     public ElapsedTime runtime = new ElapsedTime();
 
 
@@ -48,54 +55,53 @@ public abstract class RobotNew extends LinearOpMode {
     boolean timerBrake = false;
     ElapsedTime elapsedTime = new ElapsedTime();
 
-
     @Override
     public void runOpMode() {
 
         drive = new SampleMecanumDrive(hardwareMap);
 
-        elevator = hardwareMap.dcMotor.get("elevator");
-        elevatorr = hardwareMap.dcMotor.get("elevator");
+        elevator0 = hardwareMap.dcMotor.get("elevator0");
+        elevator1 = hardwareMap.dcMotor.get("elevator1");
 
         claw = hardwareMap.servo.get("claw");
         tilt = hardwareMap.servo.get("tilt");
 
-        arm = hardwareMap.servo.get("arm");
+        arm0 = hardwareMap.servo.get("arm0");
+        arm1 = hardwareMap.servo.get("arm1");
 
 
-        lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       /* lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+*/
+        elevator0.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        elevator1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        elevator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        elevatorr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       /* lf.setDirection(DcMotorSimple.Direction.REVERSE);
+        lb.setDirection(DcMotorSimple.Direction.REVERSE);*/
 
-        lf.setDirection(DcMotorSimple.Direction.REVERSE);
-        lb.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        elevator.setDirection(DcMotorSimple.Direction.REVERSE);
-        elevatorr.setDirection(DcMotorSimple.Direction.REVERSE);
+        elevator0.setDirection(DcMotorSimple.Direction.REVERSE);
 
         tilt.setDirection(Servo.Direction.FORWARD);
 
 
-        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        /*lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);*/
 
-//        elevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        elevator0.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        arm.setDirection(Servo.Direction.REVERSE);
+        arm0.setDirection(Servo.Direction.REVERSE);
 
-        lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+      /*  lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        elevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        elevatorr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+*/
+        elevator0.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        elevator1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
        /* BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -106,7 +112,7 @@ public abstract class RobotNew extends LinearOpMode {
 
 
         claw.setPosition(clawClose);
-        arm.setPosition(0.00);
+        armPos(0.01);
         tilt.setPosition(0.0);
 
 
@@ -135,7 +141,7 @@ public abstract class RobotNew extends LinearOpMode {
     }
 
 
-    public void RotateP(int degrees, double power, double timeoutR, double KP) {
+  /*  public void RotateP(int degrees, double power, double timeoutR, double KP) {
 
         runtime.reset();
 
@@ -230,37 +236,67 @@ public abstract class RobotNew extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+*/
+
+
+    public void elevatorPower(double power) {
+        elevator0.setPower(power);
+        elevator1.setPower(power);
+    }
+    public void elevatorTargetPosition(int TargetPosition){
+        elevator0.setTargetPosition(TargetPosition);
+        elevator1.setTargetPosition(TargetPosition);
+    }
+    public void elevatorSetMode(){
+        elevator0.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        elevator1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+
+    public void armPos(double setPos) {
+        arm0.setPosition(setPos);
+        arm1.setPosition(setPos);
+    }
+
+
+
+
+
     public void elevatorHigh() {
-        elevator.setTargetPosition(high);
-        arm.setPosition(0.1);
-        elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        elevator.setPower(0.7);
+        elevatorTargetPosition(high);
+        armPos(0.1);
+        elevatorPower(0.7);
+        elevatorSetMode();
+        tilt.setPosition(tiltHigh);
     }
 
     public void elevatorMid() {
-        elevator.setTargetPosition(mid);
-        arm.setPosition(0.09);
-        elevator.setPower(0.7);
-        elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        elevatorTargetPosition(mid);
+        armPos(0.1);
+        elevatorPower(0.7);
+        elevatorSetMode();
+        tilt.setPosition(tiltMid);
 
     }
 
     public void elevatorLow() {
-        elevator.setTargetPosition(low);
-        arm.setPosition(0.09);
-        elevator.setPower(0.7);
-        elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        elevatorTargetPosition(low);
+        armPos(0.1);
+        elevatorPower(0.7);
+        elevatorSetMode();
+        tilt.setPosition(tiltLow);
     }
 
     public void elevatorGround() {
-        elevator.setTargetPosition(ground);
-        arm.setPosition(0.0);
-        elevator.setPower(0.7);
-        elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        elevatorTargetPosition(ground);
+        armPos(0.01);
+        elevatorPower(0.7);
+        elevatorSetMode();
+        tilt.setPosition(tiltGround);
     }
 
     public void tiltControl() {
-        tilt.setPosition(arm.getPosition() - 0.04);
+        tilt.setPosition((arm0.getPosition() * 5) + 0.15);
     }
 
 

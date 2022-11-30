@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -20,7 +21,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
                 waitForStart();
 
-                arm.setPosition(0.02);
+                armPos(0.02);
 
                 if (tagOfInterest == null || tagOfInterest.id == left) {
                     //left code
@@ -46,3 +47,4 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
                 }
     }
 }
+*/

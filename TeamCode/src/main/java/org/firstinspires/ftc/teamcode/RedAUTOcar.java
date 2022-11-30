@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous (name="RedAUTOcar", group="Robot")
 public class RedAUTOcar extends QRcode{
@@ -16,44 +17,42 @@ public class RedAUTOcar extends QRcode{
 
         }
         waitForStart();
-
-        arm.setPosition(0.02);
-        encoderDriveP(0.25, -125, -125, -125, -125, 0.003,5 );
-        sleep(500);
-        RotateP(140, 1, 3.5, 0.0168);
-        //Elevator High
-        elevator.setTargetPosition(high);
-        arm.setPosition(0.081);
-        tilt.setPosition(0.018);
-        elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        elevator.setPower(0.7);
-        sleep(1500);
-        encoderDriveP(0.075, 17, 17,   17, 17, 0.01,2.5  );
-        sleep(500);
+        Trajectory firstdrop = drive.trajectoryBuilder(new Pose2d(-36.4,-66.8, Math.toRadians(79)), Math.toRadians(79))
+                .splineToSplineHeading(new Pose2d(-38.4,-12.4, Math.toRadians(-180)), Math.toRadians(-138))
+                .build();
+        drive.followTrajectory(firstdrop);
+        elevatorHigh();
+        tilt.setPosition(0.2);
+        sleep(200);
         claw.setPosition(clawOpen);
-        sleep(1000);
-        elevatorGround();
-        tiltControl();
         sleep(500);
+        elevatorGround();
+        for (int i = 0; i<3; i++) {
+            Trajectory getconus = drive.trajectoryBuilder(new Pose2d(-52.4, -12, Math.toRadians(-138)), Math.toRadians(-180))
+                    .splineToSplineHeading(new Pose2d(-38.8, -10.4, Math.toRadians(-180)), Math.toRadians(-138))
+                    .build();
+            drive.followTrajectory(getconus);
+            claw.setPosition(clawClose);
+            Trajectory drop = drive.trajectoryBuilder(new Pose2d(-40, -11.2, Math.toRadians(-180)), Math.toRadians(-138))
+                    .build();
+            drive.followTrajectory(drop);
+            elevatorHigh();
+            tilt.setPosition(0.2);
+            sleep(200);
+            claw.setPosition(clawOpen);
+            sleep(500);
+            elevatorGround();
+        }
         if (tagOfInterest == null || tagOfInterest.id == left) {
             //left code
-            RotateP(0, 1,1.5,0.03);
-            encoderDriveP(1 ,65,65,65,65,0.014,1);
-            RotateP(-90, 1,2, 0.025);
-            encoderDriveP(1, 55, 55, 55, 55, 0.025, 2);
+
         } else if (tagOfInterest.id == middle) {
             //middle code
-            RotateP(180, 1, 2, 0.025);
-            encoderDriveP(1, -55, -55, -55, -55, 0.025, 2);
+
         }
         else if (tagOfInterest.id == right) {
             //right code
-            RotateP(180, 1, 2, 0.025);
-            encoderDriveP(1, -60, -60, -60,-60, 0.025, 2);
-            RotateP(90, 1, 2, 0.025);
-            encoderDriveP(1, 50, 50, 50, 50.,0.02, 2);
-            RotateP(180, 1, 2, 0.02);
-            encoderDriveP(1, 20, 20, 20, 20, 0.25, 1.5);
+
         }
     }
 }

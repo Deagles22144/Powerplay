@@ -1,10 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @TeleOp(name="TeleopMecanum", group="Robot")
@@ -39,10 +35,10 @@ public class TeleopMecanum extends RobotNew {
             double rbPower = (rotY + rotX - rx) /denominator;
 
 
-            lf.setPower(/*y + x + rx*/lfPower);
-            lb.setPower(/*y - x + rx*/lbPower);
-            rf.setPower(/*y - x - rx*/rfPower);
-            rb.setPower(/*y + x - rx*/rbPower);
+            drive.lf.setPower(/*y + x + rx*/lfPower);
+            drive.lb.setPower(/*y - x + rx*/lbPower);
+            drive.rf.setPower(/*y - x - rx*/rfPower);
+            drive.rb.setPower(/*y + x - rx*/rbPower);
 
             //double rt = gamepad1.right_trigger;
             boolean rightBumper = gamepad1.right_bumper;
@@ -54,13 +50,13 @@ public class TeleopMecanum extends RobotNew {
                 imu.initialize(parameters);
             }
 */
-            tiltControl();
+          //  tiltControl();
 
-            if (gamepad2.left_stick_y<0 && arm.getPosition()<0.11){
-                arm.setPosition(arm.getPosition() + 0.0004);
+            if (gamepad2.left_stick_y<0 && arm0.getPosition()<0.11){
+                armPos(arm0.getPosition() + 0.0004);
             }
             else if (gamepad2.left_stick_y>0){
-                arm.setPosition(arm.getPosition() - 0.0004);
+                armPos(arm0.getPosition() - 0.0004);
             }
 
 
@@ -112,14 +108,14 @@ public class TeleopMecanum extends RobotNew {
             ToggleClaw();
         }
         if (elapsedTime.seconds() >= 0.3 && timerBrake && claw.getPosition() == clawClose) {
-            arm.setPosition(0.02);
+            armPos(0.02);
         }
 
         if (!rightBumper) {
             wasPressed = true;
         }
-        telemetry.addLine("elevator is at: " + elevator.getCurrentPosition());
-        telemetry.addLine("Arm is at: " + arm.getPosition());
+        telemetry.addLine("elevator is at: " + elevator0.getCurrentPosition());
+        telemetry.addLine("arm0 is at: " + arm0.getPosition());
         telemetry.addLine("timer: " + elapsedTime.seconds());
         telemetry.addLine("timebreake is: " + timerBrake);
        // telemetry.addLine("heading: " + botHeading);
