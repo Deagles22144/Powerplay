@@ -14,22 +14,20 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-public abstract class RobotNew extends LinearOpMode {
-    int high = 1650;
-    int mid = 1000;
+
+public class RobotNew extends LinearOpMode {
+    int high = 2350;
+    int mid = 1100;
     int low = 160;
     int ground = 0;
 
     public static double clawClose = 0.06;
     public static double clawOpen = 0.04;
 
-    public static double tiltHigh = 0.0;
-    public static double tiltMid = 0.0;
+    public static double tiltHigh = 0.65;
+    public static double tiltMid = 0.4;
     public static double tiltLow = 0.0;
     public static double tiltGround = 0.0;
-
-
-
 
     public BNO055IMU imu;
 
@@ -70,16 +68,8 @@ public abstract class RobotNew extends LinearOpMode {
         arm1 = hardwareMap.servo.get("arm1");
 
 
-       /* lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-*/
         elevator0.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         elevator1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-       /* lf.setDirection(DcMotorSimple.Direction.REVERSE);
-        lb.setDirection(DcMotorSimple.Direction.REVERSE);*/
 
         elevator0.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -91,8 +81,9 @@ public abstract class RobotNew extends LinearOpMode {
         lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);*/
 
-//        elevator0.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+        /*elevator0.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        elevator1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+*/
         arm0.setDirection(Servo.Direction.REVERSE);
 
       /*  lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

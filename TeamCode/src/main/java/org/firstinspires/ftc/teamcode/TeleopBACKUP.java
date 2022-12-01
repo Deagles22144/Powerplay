@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-
+@Config
 @TeleOp(name="TeleopBACKUP", group="Robot")
 public class TeleopBACKUP extends RobotNew {
 

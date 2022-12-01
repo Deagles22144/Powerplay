@@ -12,7 +12,8 @@ public class autoCar extends QRcode{
     public void runOpMode() {
         super.runOpMode();
 
-
+        Pose2d startPose = new Pose2d(0, 0, Math.toRadians(0));
+        drive.setPoseEstimate(startPose);
 
         while (!isStarted() && !isStopRequested()){
             QrScan();
@@ -20,19 +21,17 @@ public class autoCar extends QRcode{
         }
         waitForStart();
 
-        Trajectory traj = drive.trajectoryBuilder(new Pose2d(-36.8,69.6, Math.toRadians(140)), Math.toRadians(-92))
-                .splineToSplineHeading(new Pose2d(-38.8,12, Math.toRadians(-180)), Math.toRadians(140))
+        Trajectory traj = drive.trajectoryBuilder(new Pose2d(37.2,71.6, Math.toRadians(-42)), Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(36.8,11.6, Math.toRadians(-90)), Math.toRadians(42))
                 .build();
 
-        Trajectory traj1 = drive.trajectoryBuilder(new Pose2d(-40,11.6, Math.toRadians(-180)), Math.toRadians(143))
-                .splineToSplineHeading(new Pose2d(-52,12, Math.toRadians(-180)), Math.toRadians(-180))
+        Trajectory traj1 = drive.trajectoryBuilder(new Pose2d(36.8,11.6, Math.toRadians(0)), Math.toRadians(42))
+                .splineToSplineHeading(new Pose2d(56.4,12.4, Math.toRadians(-90)), Math.toRadians(0))
                 .build();
 
-        Trajectory traj2 = drive.trajectoryBuilder(new Pose2d(-52.8,12, Math.toRadians(-180)), Math.toRadians(-180))
-                .splineToSplineHeading(new Pose2d(-43.6,12.4, Math.toRadians(-180)), Math.toRadians(143))
+        Trajectory traj2 = drive.trajectoryBuilder(new Pose2d(56.4,12.4, Math.toRadians(-90)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(35.6,12, Math.toRadians(0)), Math.toRadians(42))
                 .build();
-
-
 
         drive.followTrajectory(traj);
         elevatorHigh();
