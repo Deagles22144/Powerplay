@@ -30,7 +30,7 @@ public class RobotNew extends LinearOpMode {
     public static double clawOpen = 0.02;
 
     public static double tiltHigh = 0.65;
-    public static double tiltMid = 0.4;
+    public static double tiltMid = 0.65;
     public static double tiltLow = 0.0;
     public static double tiltGround = 0.0;
 
@@ -168,7 +168,7 @@ public class RobotNew extends LinearOpMode {
     public void elevatorHigh() {
         elevatorTargetPosition(elevatoeHighPos);
         armPos(0.1);
-        elevatorPower(0.7);
+        elevatorPower(1);
         elevatorSetMode();
         tilt.setPosition(tiltHigh);
     }
@@ -176,7 +176,7 @@ public class RobotNew extends LinearOpMode {
     public void elevatorMid() {
         elevatorTargetPosition(elevatorMiddlePos);
         armPos(0.1);
-        elevatorPower(0.7);
+        elevatorPower(1);
         elevatorSetMode();
         tilt.setPosition(tiltMid);
 
@@ -185,7 +185,7 @@ public class RobotNew extends LinearOpMode {
     public void elevatorLow() {
         elevatorTargetPosition(elevatorLowPos);
         armPos(0.1);
-        elevatorPower(0.7);
+        elevatorPower(1);
         elevatorSetMode();
         tilt.setPosition(tiltLow);
     }
@@ -194,7 +194,7 @@ public class RobotNew extends LinearOpMode {
     public void elevatorGround() {
         armPos(0.05);
         elevatorTargetPosition(elevatorGroundPos);
-        elevatorPower(0.7);
+        elevatorPower(1);
         elevatorSetMode();
     }
 
