@@ -28,14 +28,14 @@ public class AUTOcarFirst extends QRcode{
         sleep(500);
         elevatorGround();
 
-        if (tagOfInterest == null || tagOfInterest.id == left) {
+        if (tagOfInterest == null || tagOfInterest.id == parkLeft) {
             //left code
 
-        } else if (tagOfInterest.id == middle) {
+        } else if (tagOfInterest.id == parkMiddle) {
             //middle code
 
         }
-        else if (tagOfInterest.id == right) {
+        else if (tagOfInterest.id == parkRight) {
             //right code
 
         }

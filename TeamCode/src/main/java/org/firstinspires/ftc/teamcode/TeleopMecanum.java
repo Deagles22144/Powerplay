@@ -76,8 +76,16 @@ public class TeleopMecanum extends RobotNew {
             elevatorLow();
         }
 
+
+        if (elevator0.getCurrentPosition() <= elevatorMiddlePos/2 && isGround) {
+            armPos(0.01);
+            tilt.setPosition(tiltGround);
+            isGround = false;
+        }
+
         if (gamepad2.dpad_right) {
             timerBrake = false;
+            isGround  = true;
             elevatorGround();
         }
         if (gamepad1.right_trigger > 0.5) {

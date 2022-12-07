@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,20 +15,29 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-
+@Config
 public class RobotNew extends LinearOpMode {
-    int high = 2350;
-    int mid = 1100;
-    int low = 160;
-    int ground = 0;
+    int elevatoeHighPos = 2350;
+    int elevatorMiddlePos = 1100;
+    int elevatorLowPos = 160;
+    int elevatorGroundPos = 0;
 
-    public static double clawClose = 0.06;
-    public static double clawOpen = 0.04;
+    int[] cones = {700, 600, 400, 200, 0};
+
+    // cone 1 = 700  cone 2 = 600 cone 3 = 400 cone 4 = 200 cone 5 = 0
+
+    public static double clawClose = 0.05;
+    public static double clawOpen = 0.02;
 
     public static double tiltHigh = 0.65;
     public static double tiltMid = 0.4;
     public static double tiltLow = 0.0;
     public static double tiltGround = 0.0;
+
+
+    public static double tiltAuto = 0.605;
+
+    boolean isGround = false;
 
     public BNO055IMU imu;
 
@@ -37,7 +47,7 @@ public class RobotNew extends LinearOpMode {
 
 
     public SampleMecanumDrive drive;
-    public DcMotor /*lf, rf, lb, rb,*/ elevator0,elevator1;
+    public DcMotor elevator0,elevator1;
     public Servo claw, tilt, arm0, arm1;
     public ElapsedTime runtime = new ElapsedTime();
 
@@ -75,22 +85,9 @@ public class RobotNew extends LinearOpMode {
 
         tilt.setDirection(Servo.Direction.FORWARD);
 
-
-        /*lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);*/
-
-        /*elevator0.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        elevator1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-*/
         arm0.setDirection(Servo.Direction.REVERSE);
 
-      /*  lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-*/
+
         elevator0.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         elevator1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -132,102 +129,6 @@ public class RobotNew extends LinearOpMode {
     }
 
 
-  /*  public void RotateP(int degrees, double power, double timeoutR, double KP) {
-
-        runtime.reset();
-
-        if (getAngle() < degrees) {
-            while ((getAngle() < degrees) &&  (runtime.seconds() < timeoutR)) {
-                double error = degrees - getAngle();
-
-                lf.setPower(-power * error * KP);
-                lb.setPower(-power * error * KP);
-                rf.setPower(power * error * KP);
-                rb.setPower(power * error * KP);
-
-                telemetry.addData("heading", getAngle());
-                telemetry.update();
-
-            }
-        } else if (getAngle() > degrees) {
-            while ((getAngle() > degrees) && (runtime.seconds() < timeoutR)) {
-                double error = getAngle() - degrees;
-
-                lf.setPower(power * error * KP);
-                lb.setPower(power * error * KP);
-                rf.setPower(-power * error * KP);
-                rb.setPower(-power * error * KP);
-
-            }
-        } else return;
-        // turn the motors off.
-        lf.setPower(0);
-        lb.setPower(0);
-        rf.setPower(0);
-        rb.setPower(0);
-    }
-
-
-    public void encoderDriveP(double speed, double LeftFrontCM, double LeftBackCM, double RightFrontCM, double RightBackCM, double KP, double TimeOut) {
-
-        runtime.reset();
-
-        double error = LeftFrontCM - lf.getCurrentPosition();
-        int newLeftFrontTarget = 0;
-        int newLeftBackTarget = 0;
-        int newRightFrontTarget = 0;
-        int newRightBackTarget = 0;
-        double Pnumber = 0.019;
-        // Ensure that the opmode is still active
-
-        // Determine new target position, and pass to motor controller
-        newLeftFrontTarget = lf.getCurrentPosition() + (int) (LeftFrontCM * COUNTS_PER_CM);
-        newLeftBackTarget = lb.getCurrentPosition() + (int) (LeftBackCM * COUNTS_PER_CM);
-        newRightFrontTarget = rf.getCurrentPosition() + (int) (RightFrontCM * COUNTS_PER_CM);
-        newRightBackTarget = rb.getCurrentPosition() + (int) (RightBackCM * COUNTS_PER_CM);
-
-        lf.setTargetPosition(newLeftFrontTarget);
-        lb.setTargetPosition(newLeftBackTarget);
-        rf.setTargetPosition(newRightFrontTarget);
-        rb.setTargetPosition(newRightBackTarget);
-
-        // Turn On RUN_TO_POSITION
-        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        // reset the timeout time and start motion.
-
-        while ((newLeftFrontTarget >= lf.getCurrentPosition() && runtime.seconds() < TimeOut) && (newLeftBackTarget >= lb.getCurrentPosition() && runtime.seconds() < TimeOut)
-                && (newRightFrontTarget >= rf.getCurrentPosition() && runtime.seconds() < TimeOut) && (newRightBackTarget >= rb.getCurrentPosition() && runtime.seconds() < TimeOut)
-                || (newLeftFrontTarget <= lf.getCurrentPosition() && runtime.seconds() < TimeOut) && (newLeftBackTarget <= lb.getCurrentPosition() && runtime.seconds() < TimeOut)
-                && (newRightFrontTarget <= rf.getCurrentPosition() && runtime.seconds() < TimeOut) && (newRightBackTarget <= rb.getCurrentPosition() && runtime.seconds() < TimeOut)) {
-
-            error = newLeftFrontTarget - lf.getCurrentPosition();
-
-
-            lf.setPower(Math.abs(speed * error * KP));
-            lb.setPower(Math.abs(speed * error * KP));
-            rf.setPower(Math.abs(speed * error * KP));
-            rb.setPower(Math.abs(speed * error * KP));
-
-        }
-
-        // Stop all motion;
-        lf.setPower(0);
-        lb.setPower(0);
-        rf.setPower(0);
-        rb.setPower(0);
-
-        // Turn off RUN_TO_POSITION
-        lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-*/
 
 
     public void elevatorPower(double power) {
@@ -249,12 +150,23 @@ public class RobotNew extends LinearOpMode {
         arm1.setPosition(setPos);
     }
 
-
-
+    public void elevatorAuto(int Position )
+    {
+        elevatorTargetPosition(Position);
+        armPos(0.01);
+        elevatorPower(0.7);
+        elevatorSetMode();
+        tilt.setPosition(tiltGround);
+    }
+    public void elevatorAfterColloctAuto() {
+        elevatorTargetPosition(1100);
+        elevatorPower(0.7);
+        elevatorSetMode();
+    }
 
 
     public void elevatorHigh() {
-        elevatorTargetPosition(high);
+        elevatorTargetPosition(elevatoeHighPos);
         armPos(0.1);
         elevatorPower(0.7);
         elevatorSetMode();
@@ -262,7 +174,7 @@ public class RobotNew extends LinearOpMode {
     }
 
     public void elevatorMid() {
-        elevatorTargetPosition(mid);
+        elevatorTargetPosition(elevatorMiddlePos);
         armPos(0.1);
         elevatorPower(0.7);
         elevatorSetMode();
@@ -271,19 +183,19 @@ public class RobotNew extends LinearOpMode {
     }
 
     public void elevatorLow() {
-        elevatorTargetPosition(low);
+        elevatorTargetPosition(elevatorLowPos);
         armPos(0.1);
         elevatorPower(0.7);
         elevatorSetMode();
         tilt.setPosition(tiltLow);
     }
 
+
     public void elevatorGround() {
-        elevatorTargetPosition(ground);
-        armPos(0.01);
+        armPos(0.05);
+        elevatorTargetPosition(elevatorGroundPos);
         elevatorPower(0.7);
         elevatorSetMode();
-        tilt.setPosition(tiltGround);
     }
 
     public void tiltControl() {

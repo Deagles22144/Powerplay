@@ -53,9 +53,9 @@ public class QRcode extends RobotNew
     // UNITS ARE METERS
     double tagsize = 0.166;
 
-   int left = 1;
-   int middle =2;
-   int right = 3;
+   int parkLeft = 1;
+   int parkMiddle =2;
+   int parkRight = 3;
 
     AprilTagDetection tagOfInterest = null;
 
@@ -67,7 +67,7 @@ public class QRcode extends RobotNew
             boolean tagFound = false;
 
             for (AprilTagDetection tag : currentDetections) {
-                if (tag.id == left || tag.id == middle || tag.id == right) {
+                if (tag.id == parkLeft || tag.id == parkMiddle || tag.id == parkRight) {
                     tagOfInterest = tag;
                     tagFound = true;
                     break;
@@ -111,7 +111,7 @@ public class QRcode extends RobotNew
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         // Technically this is the default, however specifying it is clearer
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         // Without this, data retrieving from the IMU throws an exception
         imu.initialize(parameters);
 
