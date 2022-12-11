@@ -159,7 +159,7 @@ public class RobotNew extends LinearOpMode {
         tilt.setPosition(tiltGround);
     }
     public void elevatorAfterColloctAuto() {
-        elevatorTargetPosition(1100);
+        elevatorTargetPosition(1150);
         elevatorPower(0.7);
         elevatorSetMode();
     }

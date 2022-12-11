@@ -22,7 +22,7 @@ public class TeleopMecanum extends RobotNew {
         while (opModeIsActive() && !isStopRequested()) {
 
 
-            double botHeading = Math.toRadians(-imu.getAngularOrientation().firstAngle - Math.PI);
+            double botHeading = -imu.getAngularOrientation().firstAngle - Math.PI;
 
             double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
             double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);

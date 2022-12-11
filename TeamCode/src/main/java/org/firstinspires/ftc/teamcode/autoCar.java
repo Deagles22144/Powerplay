@@ -24,108 +24,161 @@ public class autoCar extends QRcode {
 
         }
 
-        TrajectorySequence traj = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence Preload = drive.trajectorySequenceBuilder(startPose)
                 .setTangent(Math.toRadians(-90))
                 .splineToConstantHeading(new Vector2d(-35, 25), Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(-35, 11, Math.toRadians(135)), Math.toRadians(-90))
+                .addDisplacementMarker(5,() -> {
+                    elevatorHigh();
+                    tilt.setPosition(tiltAuto);
+                })
+                .splineToSplineHeading(new Pose2d(-32, 10, Math.toRadians(135)), Math.toRadians(-70))
+                .waitSeconds(1)
                 .build();
 
-        TrajectorySequence FirstBackDrive = drive.trajectorySequenceBuilder(traj.end())
-                .back(3, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .build();
 
-        TrajectorySequence traj1 = drive.trajectorySequenceBuilder(FirstBackDrive.end())
-                .setTangent(Math.toRadians(105))
+        TrajectorySequence FirstDriveToCones = drive.trajectorySequenceBuilder(Preload.end())//FirstBackDrive.end())
+                .setTangent(Math.toRadians(120))
                 .splineToSplineHeading(new Pose2d(-43, 15, Math.toRadians(180)),Math.toRadians(180))
                 .splineToSplineHeading(new Pose2d(-60,15, Math.toRadians(180)),Math.toRadians(180))
-                .forward(5.0, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                .addDisplacementMarker(5,() -> {
+                    elevatorAuto(cones[0]);
+                    //tilt.setPosition(tiltAuto);
+                })
+                .forward(7.0, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
 
-        TrajectorySequence traj2 = drive.trajectorySequenceBuilder(traj1.end())
+
+        TrajectorySequence ConeUnload = drive.trajectorySequenceBuilder(new Pose2d(-63,15, Math.toRadians(180)))
                 .setTangent(Math.toRadians(0))
                 .splineToSplineHeading(new Pose2d(-45, 15, Math.toRadians(180)),Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(-37, 12 , Math.toRadians(135)),Math.toRadians(-50))
+                .addDisplacementMarker(2,() -> {
+                    elevatorHigh();
+                    //tilt.setPosition(tiltAuto);
+                 })
+                .splineToSplineHeading(new Pose2d(-32, 10 , Math.toRadians(135)),Math.toRadians(-50))
+                .waitSeconds(1)
                 .build();
 
+        TrajectorySequence ConeLoad = drive.trajectorySequenceBuilder(ConeUnload.end())//FirstBackDrive.end())
+                .setTangent(Math.toRadians(120))
+                .splineToSplineHeading(new Pose2d(-43, 15, Math.toRadians(180)),Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-60,15, Math.toRadians(180)),Math.toRadians(180))
+//                .forward(7.0, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                .build();
 
-        TrajectorySequence SecondBackDrive = drive.trajectorySequenceBuilder(traj2.end())
-                .back(5, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+        TrajectorySequence forwardDrive = drive.trajectorySequenceBuilder(ConeLoad.end())
+                .forward(7.0, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        .build();
+
+        /** --------- Park Auto Trajectories ----------**/
+
+        TrajectorySequence ParkMid  = drive.trajectorySequenceBuilder(ConeUnload.end())
+                .setTangent(120)
+                .lineToLinearHeading(new Pose2d(-35,24,Math.toRadians(90)))
+                .build();
+
+        TrajectorySequence ParkRight = drive.trajectorySequenceBuilder(ConeUnload.end())
+                .setTangent(90)
+                .splineToSplineHeading(new Pose2d(-35,25,Math.toRadians(115)),Math.toRadians(115))
+                .splineToSplineHeading( new Pose2d(-64,35,Math.toRadians(180)),Math.toRadians(180))
+                .build();
+
+        TrajectorySequence ParkLeft = drive.trajectorySequenceBuilder(ConeUnload.end())
+                .setTangent(90)
+                .splineToSplineHeading(new Pose2d(-25,12,Math.toRadians(215)),Math.toRadians(45))
+                .splineToSplineHeading( new Pose2d(-13,25,Math.toRadians(-90)),Math.toRadians(90))
                 .build();
 
 
         waitForStart();
 
+       // armPos(0.04);
 
-        drive.followTrajectorySequence(traj);
-        elevatorHigh();
-        tilt.setPosition(tiltAuto);
+        drive.followTrajectorySequence(Preload);
 
-        sleep(2500);
-        drive.followTrajectorySequence(FirstBackDrive);
-        telemetry.addLine("elevator pos: " + elevator1.getCurrentPosition());
-
-        if (elevator1.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 100)) {
+        if (elevator1.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 20) || elevator0.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 20))
+        {
             claw.setPosition(clawOpen);
             sleep(750);
+            elevatorGround();
         }
-        elevatorGround();
 
-        while (elevator0.getCurrentPosition() >= elevatorMiddlePos / 2) {
+        while (elevator0.getCurrentPosition() >= elevatorMiddlePos / 2)
+        {
             armPos(0.05);
         }
+
         armPos(0.01);
         tilt.setPosition(tiltGround);
         sleep(600);
 
+        drive.followTrajectorySequence(FirstDriveToCones);
 
-        for (int i = 0; i < 5; i++) {
-            elevatorAuto(cones[i]);
+        for (int i = 1; i < 3; i++)
+        {
 
-            drive.followTrajectorySequence(traj1);
-
+            drive.setPoseEstimate(new Pose2d(-63,15, Math.toRadians(180)));
 
             claw.setPosition(clawClose);
             tilt.setPosition(tiltLow);
             sleep(1000);
             elevatorAfterColloctAuto();
 
-            drive.followTrajectorySequence(traj2);
-
+            drive.followTrajectorySequence(ConeUnload);
+/*
             elevatorHigh();
             tilt.setPosition(tiltAuto);
 
             sleep(2500);
-            drive.followTrajectorySequence(SecondBackDrive);
+            */
+
+           // drive.followTrajectorySequence(SecondBackDrive);
             //drive.followTrajectorySequence(SecondBackDrive);
             telemetry.addLine("elevator pos: " + elevator1.getCurrentPosition());
-            if (elevator1.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 10))
+            if (elevator1.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 20))
             {
                 claw.setPosition(clawOpen);
                 sleep(750);
             }
+
+            //elevatorAuto(cones[i]);
             elevatorGround();
-            while (elevator0.getCurrentPosition() >= elevatorMiddlePos / 2) {
+            while (elevator0.getCurrentPosition() >= 300)
+            {
                 armPos(0.05);
             }
+
             armPos(0.01);
             tilt.setPosition(tiltGround);
             sleep(600);
 
+            if(i < 2)
+            {
+                drive.followTrajectorySequence(ConeLoad);
+                elevatorAuto(cones[i]);
+                drive.followTrajectorySequence(forwardDrive);
+            }
         }
 
-            elevatorGround();
+        elevatorGround();
 
-            if (tagOfInterest == null || tagOfInterest.id == parkLeft) {
+            if (tagOfInterest == null || tagOfInterest.id == parkLeft)
+            {
                 //left code
+                drive.followTrajectorySequence(ParkLeft);
 
-            } else if (tagOfInterest.id == parkMiddle) {
+            } else if (tagOfInterest.id == parkMiddle)
+            {
                 //middle code
-            } else if (tagOfInterest.id == parkRight) {
+                drive.followTrajectorySequence(ParkMid);
+            } else if (tagOfInterest.id == parkRight)
+            {
                 //right code
+                drive.followTrajectorySequence(ParkRight);
 
             }
         }
