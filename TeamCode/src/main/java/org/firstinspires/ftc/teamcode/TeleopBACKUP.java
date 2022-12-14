@@ -88,7 +88,7 @@ public class TeleopBACKUP extends RobotNew {
                 elevatorGround();
             }
             if (elevator0.getCurrentPosition() <= elevatorMiddlePos/2 && isGround) {
-                armPos(armLow);
+                armPos(armGround);
                 tilt.setPosition(tiltGround);
                 isGround = false;
             }

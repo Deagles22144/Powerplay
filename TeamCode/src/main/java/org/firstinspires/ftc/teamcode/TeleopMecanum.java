@@ -82,7 +82,7 @@ public class TeleopMecanum extends RobotNew {
             elevatorGround();
         }
 
-        if (elevator0.getCurrentPosition() <= elevatorMiddlePos/2 && isGround) {
+        if (elevator0.getCurrentPosition() >= elevatorMiddlePos/2 && isGround) {
             armPos(armLow);
             tilt.setPosition(tiltGround);
             isGround = false;

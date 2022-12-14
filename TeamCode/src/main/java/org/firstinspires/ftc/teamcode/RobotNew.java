@@ -22,7 +22,7 @@ public class RobotNew extends LinearOpMode {
     public static int elevatorLowPos = 160;
     public static int elevatorGroundPos = 0;
 
-    int[] cones = {500, 400, 250, 100, 0};
+    int[] cones = {250, 140, 30, 100, 0};
 
     // cone 1 = 700  cone 2 = 600 cone 3 = 400 cone 4 = 200 cone 5 = 0
 
@@ -159,7 +159,7 @@ public class RobotNew extends LinearOpMode {
     public void elevatorAuto(int Position )
     {
         elevatorTargetPosition(Position);
-        armPos(0.2);
+        armPos(0.1);
         elevatorPower(0.7);
         elevatorSetMode();
         tilt.setPosition(tiltGround);
