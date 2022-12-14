@@ -8,15 +8,15 @@ import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous (name="autoCar", group="Robot")
-public class autoCar extends QRcode {
+@Autonomous (name="AotuCarLeft", group="Robot")
+public class AotuCarLeft extends QRcode {
 
 
     @Override
     public void runOpMode() {
         super.runOpMode();
 
-        Pose2d startPose = new Pose2d(-35, 65, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(35, 65, Math.toRadians(90));
         drive.setPoseEstimate(startPose);
 
         while (!isStarted() && !isStopRequested()) {
@@ -26,23 +26,23 @@ public class autoCar extends QRcode {
 
         TrajectorySequence Preload = drive.trajectorySequenceBuilder(startPose)
                 .setTangent(Math.toRadians(-90))
-                .splineToConstantHeading(new Vector2d(-35, 25), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(35, 25), Math.toRadians(-90))
                 .addDisplacementMarker(5,() -> {
                     elevatorHigh();
-                    tilt.setPosition(tiltHigh);
+                    tilt.setPosition(tiltAuto);
                 })
-                .splineToSplineHeading(new Pose2d(-32, 10, Math.toRadians(135)), Math.toRadians(-70))
+                .splineToSplineHeading(new Pose2d(32, 10, Math.toRadians(45)), Math.toRadians(-110))
                 .waitSeconds(1)
                 .build();
 
 
-        TrajectorySequence FirstDriveToCones = drive.trajectorySequenceBuilder(Preload.end())
-                .setTangent(Math.toRadians(120))
-                .splineToSplineHeading(new Pose2d(-43, 15, Math.toRadians(180)),Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(-60,15, Math.toRadians(180)),Math.toRadians(180))
-                .addDisplacementMarker(8,() -> {
+        TrajectorySequence FirstDriveToCones = drive.trajectorySequenceBuilder(Preload.end())//FirstBackDrive.end())
+                .setTangent(Math.toRadians(60))
+                .splineToSplineHeading(new Pose2d(43, 15, Math.toRadians(0)),Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(60,15, Math.toRadians(0)),Math.toRadians(0))
+                .addDisplacementMarker(5,() -> {
                     elevatorAuto(cones[0]);
-                    tilt.setPosition(tiltAuto);
+                    //tilt.setPosition(tiltAuto);
                 })
                 .forward(7.0, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
@@ -50,22 +50,21 @@ public class autoCar extends QRcode {
 
 
 
-        TrajectorySequence ConeUnload = drive.trajectorySequenceBuilder(new Pose2d(-63,15, Math.toRadians(180)))
+        TrajectorySequence ConeUnload = drive.trajectorySequenceBuilder(new Pose2d(60,15, Math.toRadians(180)))
                 .setTangent(Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(-45, 15, Math.toRadians(180)),Math.toRadians(0))
-                .addDisplacementMarker(5,() -> {
+                .splineToSplineHeading(new Pose2d(45, 15, Math.toRadians(0)),Math.toRadians(180))
+                .addDisplacementMarker(2,() -> {
                     elevatorHigh();
-                    tilt.setPosition(tiltHigh);
-                 })
-                .splineToSplineHeading(new Pose2d(-33.                                                                                                                                                                  , 9 , Math.toRadians(135)),Math.toRadians(-50),SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                    //tilt.setPosition(tiltAuto);
+                })
+                .splineToSplineHeading(new Pose2d(33, 11 , Math.toRadians(45)),Math.toRadians(-110))
                 .waitSeconds(1)
                 .build();
 
         TrajectorySequence ConeLoad = drive.trajectorySequenceBuilder(ConeUnload.end())//FirstBackDrive.end())
                 .setTangent(Math.toRadians(120))
-                .splineToSplineHeading(new Pose2d(-43, 15, Math.toRadians(180)),Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(-60,15, Math.toRadians(180)),Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(43, 15, Math.toRadians(180)),Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(60,15, Math.toRadians(180)),Math.toRadians(180))
 //                .forward(7.0, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
 //                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
@@ -73,7 +72,7 @@ public class autoCar extends QRcode {
         TrajectorySequence forwardDrive = drive.trajectorySequenceBuilder(ConeLoad.end())
                 .forward(7.0, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                        .build();
+                .build();
 
         /** --------- Park Auto Trajectories ----------**/
 
@@ -97,23 +96,22 @@ public class autoCar extends QRcode {
 
         waitForStart();
 
-        armPos(0.23);
+        // armPos(0.04);
 
         drive.followTrajectorySequence(Preload);
-
-        if (elevator1.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 20) || elevator0.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 20))
+        if (elevator1.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 10) || elevator0.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 10))
         {
             claw.setPosition(clawOpen);
             sleep(750);
             elevatorGround();
         }
 
-        while (elevator0.getCurrentPosition() >= 250)
+        while (elevator0.getCurrentPosition() >= elevatorMiddlePos / 2)
         {
-            armPos(armLow);
+            armPos(0.05);
         }
 
-        armPos(armGround);
+        armPos(0.01);
         tilt.setPosition(tiltGround);
         sleep(600);
 
@@ -137,10 +135,10 @@ public class autoCar extends QRcode {
             sleep(2500);
             */
 
-           // drive.followTrajectorySequence(SecondBackDrive);
+            // drive.followTrajectorySequence(SecondBackDrive);
             //drive.followTrajectorySequence(SecondBackDrive);
             telemetry.addLine("elevator pos: " + elevator1.getCurrentPosition());
-            if (elevator1.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 20))
+            if (elevator1.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 10))
             {
                 claw.setPosition(clawOpen);
                 sleep(750);
@@ -148,12 +146,12 @@ public class autoCar extends QRcode {
 
             //elevatorAuto(cones[i]);
             elevatorGround();
-            while (elevator0.getCurrentPosition() >= 250)
+            while (elevator0.getCurrentPosition() >= 300)
             {
-                armPos(armLow);
+                armPos(0.05);
             }
 
-            armPos(armGround);
+            armPos(0.01);
             tilt.setPosition(tiltGround);
             sleep(600);
 
@@ -167,26 +165,25 @@ public class autoCar extends QRcode {
 
         elevatorGround();
 
-            if (tagOfInterest == null || tagOfInterest.id == parkLeft)
-            {
-                //left code
-                drive.followTrajectorySequence(ParkLeft);
+        if (tagOfInterest == null || tagOfInterest.id == parkLeft)
+        {
+            //left code
+            drive.followTrajectorySequence(ParkLeft);
 
-            } else if (tagOfInterest.id == parkMiddle)
-            {
-                //middle code
-                drive.followTrajectorySequence(ParkMid);
+        } else if (tagOfInterest.id == parkMiddle)
+        {
+            //middle code
+            drive.followTrajectorySequence(ParkMid);
+        } else if (tagOfInterest.id == parkRight)
+        {
+            //right code0
+            drive.followTrajectorySequence(ParkRight);
 
-            } else if (tagOfInterest.id == parkRight)
-            {
-                //right code
-                drive.followTrajectorySequence(ParkRight);
-
-            }
         }
-
-
     }
+
+
+}
 
 
 

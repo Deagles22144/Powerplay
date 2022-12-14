@@ -76,18 +76,19 @@ public class TeleopMecanum extends RobotNew {
             elevatorLow();
         }
 
-
-        if (elevator0.getCurrentPosition() <= elevatorMiddlePos/2 && isGround) {
-            armPos(0.01);
-            tilt.setPosition(tiltGround);
-            isGround = false;
-        }
-
         if (gamepad2.dpad_right) {
             timerBrake = false;
             isGround  = true;
             elevatorGround();
         }
+
+        if (elevator0.getCurrentPosition() <= elevatorMiddlePos/2 && isGround) {
+            armPos(armLow);
+            tilt.setPosition(tiltGround);
+            isGround = false;
+        }
+
+
         if (gamepad1.right_trigger > 0.5) {
             y = -gamepad1.left_stick_y / 2;
             x = gamepad1.left_stick_x / 2;
@@ -106,17 +107,17 @@ public class TeleopMecanum extends RobotNew {
         }
 
         if (gamepad2.right_stick_y<0 && tilt.getPosition()<0.1){
-            tilt.setPosition(tilt.getPosition()+0.0004);
+            tilt.setPosition(tilt.getPosition()+0.004);
         }
         else if (gamepad2.right_stick_y>0){
-            tilt.setPosition(tilt.getPosition()-0.0004);
+            tilt.setPosition(tilt.getPosition()-0.004);
         }
 
         if (rightBumper) {
             ToggleClaw();
         }
         if (elapsedTime.seconds() >= 0.3 && timerBrake && claw.getPosition() == clawClose) {
-            armPos(0.02);
+            armPos(0.1);
         }
 
         if (!rightBumper) {
