@@ -31,6 +31,7 @@ public class BlueRight extends QRcode {
                     elevatorHigh();
                     tilt.setPosition(tiltHigh);
                 })
+
                 .splineToSplineHeading(new Pose2d(-32, 10, Math.toRadians(135)), Math.toRadians(-70))
                 .waitSeconds(1)
                 .build();

@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Config
 public class RobotNew extends LinearOpMode {
     public static int elevatoeHighPos = 1650;
-    public static int elevatorMiddlePos = 1100;
+    public static int elevatorMiddlePos = 850;
     public static int elevatorLowPos = 160;
     public static int elevatorGroundPos = 0;
 
@@ -34,9 +34,9 @@ public class RobotNew extends LinearOpMode {
     public static double tiltLow = 0.0;
     public static double tiltGround = 0.0;
 
-    public static double armHigh = 0.5;
-    public static double armMid = 0.57;
-    public static double armLow = 0.25;
+    public static double armHigh = 0.8;
+    public static double armMid = 0.8;
+    public static double armLow = 0.37;
     public static double armGround = 0.0;
 
 
@@ -67,6 +67,8 @@ public class RobotNew extends LinearOpMode {
     boolean close = false;
     boolean wasPressed = true;
     boolean timerBrake = false;
+    boolean timerBrake1 = false;
+
     ElapsedTime elapsedTime = new ElapsedTime();
 
     @Override
@@ -91,7 +93,7 @@ public class RobotNew extends LinearOpMode {
 
         tilt.setDirection(Servo.Direction.FORWARD);
 
-        arm0.setDirection(Servo.Direction.REVERSE);
+        arm1.setDirection(Servo.Direction.REVERSE);
 
 
         elevator0.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -107,7 +109,7 @@ public class RobotNew extends LinearOpMode {
 
         claw.setPosition(clawClose);
         armPos(armGround);
-        tilt.setPosition(tiltGround);
+        tilt. setPosition(tiltGround);
 
 
     }
@@ -172,20 +174,24 @@ public class RobotNew extends LinearOpMode {
 
 
     public void elevatorHigh() {
+     //   elapsedTime.reset();
         elevatorTargetPosition(elevatoeHighPos);
         armPos(armHigh);
         elevatorPower(0.7);
         elevatorSetMode();
         tilt.setPosition(tiltHigh);
+        /*if (elapsedTime.seconds() >= 0.5) {
+            tilt.setPosition(tiltHigh);
+        }*/
     }
 
     public void elevatorMid() {
+       // elapsedTime.reset();
         elevatorTargetPosition(elevatorMiddlePos);
         armPos(armMid);
         elevatorPower(0.7);
         elevatorSetMode();
         tilt.setPosition(tiltMid);
-
     }
 
     public void elevatorLow() {

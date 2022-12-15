@@ -44,41 +44,51 @@ public class TeleopMecanum extends RobotNew {
             boolean rightBumper = gamepad1.right_bumper;
 
 
-            /*if (gamepad1.circle){
-                parameters = new BNO055IMU.Parameters();
-                parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-                imu.initialize(parameters);
-            }
-*/
-          //  tiltControl();
 
-            if (gamepad2.left_stick_y<0 && arm0.getPosition()<0.11){
-                armPos(arm0.getPosition() + 0.0004);
+            if (gamepad2.left_stick_y<0 /*&& arm0.getPosition()<0.11*/){
+                armPos(arm0.getPosition() + 0.004);
             }
             else if (gamepad2.left_stick_y>0){
-                armPos(arm0.getPosition() - 0.0004);
+                armPos(arm0.getPosition() - 0.004);
             }
 
-
+/***-------Elevator HIGH***/
         if (gamepad2.dpad_up) {
             timerBrake = false;
+            timerBrake1 = true;
             elevatorHigh();
-
         }
+       /* if (elapsedTime.seconds() >= 0.5 && timerBrake1 == true) {
+            tilt.setPosition(tiltHigh);
+            timerBrake1 = !timerBrake1;
+        }
+       */
+        /***-------Elevator Mid***/
 
         if (gamepad2.dpad_left) {
             timerBrake = false;
+            timerBrake1 = true;
             elevatorMid();
         }
+        /*if (elapsedTime.seconds() >= 0.5 && timerBrake1 == true) {
+            tilt.setPosition(tiltMid);
+            timerBrake1 = !timerBrake1;
+        }
+*/
+            /***-------Elevator LOW***/
 
         if (gamepad2.dpad_down) {
             timerBrake = false;
+            timerBrake1 = false;
             elevatorLow();
         }
+
+            /***-------Elevator Ground***/
 
         if (gamepad2.dpad_right) {
             timerBrake = false;
             isGround  = true;
+            timerBrake1 = false;
             elevatorGround();
         }
 
