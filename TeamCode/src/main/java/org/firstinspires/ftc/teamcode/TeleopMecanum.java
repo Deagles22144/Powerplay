@@ -55,31 +55,20 @@ public class TeleopMecanum extends RobotNew {
 /***-------Elevator HIGH***/
         if (gamepad2.dpad_up) {
             timerBrake = false;
-            timerBrake1 = true;
             elevatorHigh();
         }
-       /* if (elapsedTime.seconds() >= 0.5 && timerBrake1 == true) {
-            tilt.setPosition(tiltHigh);
-            timerBrake1 = !timerBrake1;
-        }
-       */
+
         /***-------Elevator Mid***/
 
         if (gamepad2.dpad_left) {
             timerBrake = false;
-            timerBrake1 = true;
             elevatorMid();
         }
-        /*if (elapsedTime.seconds() >= 0.5 && timerBrake1 == true) {
-            tilt.setPosition(tiltMid);
-            timerBrake1 = !timerBrake1;
-        }
-*/
+
             /***-------Elevator LOW***/
 
         if (gamepad2.dpad_down) {
             timerBrake = false;
-            timerBrake1 = false;
             elevatorLow();
         }
 
@@ -88,12 +77,11 @@ public class TeleopMecanum extends RobotNew {
         if (gamepad2.dpad_right) {
             timerBrake = false;
             isGround  = true;
-            timerBrake1 = false;
             elevatorGround();
         }
 
-        if (elevator0.getCurrentPosition() >= elevatorMiddlePos/2 && isGround) {
-            armPos(armLow);
+        if (elevator0.getCurrentPosition() <= elevatorMiddlePos/2 && isGround) {
+            armPos(armGround);
             tilt.setPosition(tiltGround);
             isGround = false;
         }

@@ -67,7 +67,6 @@ public class RobotNew extends LinearOpMode {
     boolean close = false;
     boolean wasPressed = true;
     boolean timerBrake = false;
-    boolean timerBrake1 = false;
 
     ElapsedTime elapsedTime = new ElapsedTime();
 
@@ -174,19 +173,15 @@ public class RobotNew extends LinearOpMode {
 
 
     public void elevatorHigh() {
-     //   elapsedTime.reset();
         elevatorTargetPosition(elevatoeHighPos);
         armPos(armHigh);
         elevatorPower(0.7);
         elevatorSetMode();
         tilt.setPosition(tiltHigh);
-        /*if (elapsedTime.seconds() >= 0.5) {
-            tilt.setPosition(tiltHigh);
-        }*/
+
     }
 
     public void elevatorMid() {
-       // elapsedTime.reset();
         elevatorTargetPosition(elevatorMiddlePos);
         armPos(armMid);
         elevatorPower(0.7);
@@ -204,7 +199,7 @@ public class RobotNew extends LinearOpMode {
 
 
     public void elevatorGround() {
-        armPos(armGround);
+        armPos(armLow);
         elevatorTargetPosition(elevatorGroundPos);
         elevatorPower(0.7);
         elevatorSetMode();
