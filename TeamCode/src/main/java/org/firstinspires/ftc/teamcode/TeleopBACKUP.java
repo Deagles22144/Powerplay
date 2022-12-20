@@ -89,7 +89,7 @@ public class TeleopBACKUP extends RobotNew {
             }
             if (elevator0.getCurrentPosition() <= elevatorMiddlePos/2 && isGround) {
                 armPos(armGround);
-                tilt.setPosition(tiltGround);
+                tiltPos(tiltGround);
                 isGround = false;
             }
             if (gamepad1.right_trigger > 0.5) {
@@ -109,11 +109,11 @@ public class TeleopBACKUP extends RobotNew {
 
             }
 
-            if (gamepad2.right_stick_y<0 && tilt.getPosition()<0.1){
-                tilt.setPosition(tilt.getPosition()+0.0004);
+            if (gamepad2.right_stick_y<0 && tilt0.getPosition()<0.1){
+                tiltPos(tilt0.getPosition()+0.004);
             }
             else if (gamepad2.right_stick_y>0){
-                tilt.setPosition(tilt.getPosition()-0.0004);
+                tiltPos(tilt0.getPosition()-0.004);
             }
 
             if (rightBumper) {
@@ -128,7 +128,7 @@ public class TeleopBACKUP extends RobotNew {
             }
 
             telemetry.addLine("elevator is at: " + elevator0.getCurrentPosition());
-            telemetry.addLine("tilt: " + tilt.getPosition());
+            telemetry.addLine("tilt: " + tilt0.getPosition());
             telemetry.addLine("timer: " + elapsedTime.seconds());
             telemetry.addLine("timebreake is: " + timerBrake);
             // telemetry.addLine("heading: " + botHeading);

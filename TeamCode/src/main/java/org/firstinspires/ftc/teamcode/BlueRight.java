@@ -27,13 +27,15 @@ public class BlueRight extends QRcode {
         TrajectorySequence Preload = drive.trajectorySequenceBuilder(startPose)
                 .setTangent(Math.toRadians(-90))
                 .splineToConstantHeading(new Vector2d(-35, 25), Math.toRadians(-90))
-                .addDisplacementMarker(5,() -> {
-                    elevatorHigh();
-                    tilt.setPosition(tiltHigh);
+                .addDisplacementMarker(2,() -> {
+                    armPos(0.23);
                 })
-
-                .splineToSplineHeading(new Pose2d(-32, 10, Math.toRadians(135)), Math.toRadians(-70))
-                .waitSeconds(1)
+                .addDisplacementMarker(10,() -> {
+                   // tiltPos(tiltHigh);
+                    elevatorHighAuto();
+                })
+                .splineToSplineHeading(new Pose2d(-33, 10, Math.toRadians(135)), Math.toRadians(-70))
+                //.waitSeconds(1)
                 .build();
 
 
@@ -43,20 +45,21 @@ public class BlueRight extends QRcode {
                 .splineToSplineHeading(new Pose2d(-60,15, Math.toRadians(180)),Math.toRadians(180))
                 .addDisplacementMarker(8,() -> {
                     elevatorAuto(cones[0]);
-                    tilt.setPosition(tiltGround);
+                    tiltPos(tiltGround);
                 })
-                .forward(7.0, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                .forward(3.0, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
         TrajectorySequence ConeUnload = drive.trajectorySequenceBuilder(new Pose2d(-63,15, Math.toRadians(180)))
                 .setTangent(Math.toRadians(0))
                 .splineToSplineHeading(new Pose2d(-45, 15, Math.toRadians(180)),Math.toRadians(0))
-                .addDisplacementMarker(5,() -> {
-                    elevatorHigh();
-                    tilt.setPosition(tiltHigh);
+                .addDisplacementMarker(2,() -> {
+                    //tiltPos(tiltHigh);
+                    elevatorHighAuto();
                  })
-                .splineToSplineHeading(new Pose2d(-33, 9 , Math.toRadians(135)),Math.toRadians(-50),SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+
+                .splineToSplineHeading(new Pose2d(-34, 12 , Math.toRadians(135)),Math.toRadians(-30),SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .waitSeconds(1)
                 .build();
@@ -70,7 +73,7 @@ public class BlueRight extends QRcode {
                 .build();
 
         TrajectorySequence forwardDrive = drive.trajectorySequenceBuilder(ConeLoad.end())
-                .forward(7.0, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                .forward(3.0, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                         .build();
 
@@ -96,11 +99,14 @@ public class BlueRight extends QRcode {
 
         waitForStart();
 
-        armPos(0.23);
+                   //rasing the arm so that the cone wont be on the floor.
 
         drive.followTrajectorySequence(Preload);
+//        elevatorHigh();
+        armPos(armHighAuto);
+        sleep(2500);
 
-        if (elevator1.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 20) || elevator0.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 20))
+            if (elevator1.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 20) || elevator0.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 20))
         {
             claw.setPosition(clawOpen);
             sleep(750);
@@ -120,23 +126,26 @@ public class BlueRight extends QRcode {
         }
 
         armPos(armGround);
-        tilt.setPosition(tiltGround);
+        tiltPos(tiltGround);
         sleep(600);
 
         drive.followTrajectorySequence(FirstDriveToCones);
 
 
-        for (int i = 1; i < 3; i++)
+        for (int i = 1; i < 2; i++)
         {
 
-            drive.setPoseEstimate(new Pose2d(-63,15, Math.toRadians(180)));
+            drive.setPoseEstimate(new Pose2d(-63,drive.getPoseEstimate().getY()/*15*/, drive.getPoseEstimate().getHeading() /*Math.toRadians(180)*/));
 
             claw.setPosition(clawClose);
-            tilt.setPosition(tiltGround);
+            tiltPos(tiltGround);
             sleep(1000);
             elevatorAfterColloctAuto();
 
             drive.followTrajectorySequence(ConeUnload);
+//            elevatorHigh();
+            armPos(armHighAuto);
+            sleep(2000);
 
 /*
             elevatorHigh();
@@ -164,10 +173,10 @@ public class BlueRight extends QRcode {
             }
 
             armPos(armGround);
-            tilt.setPosition(tiltGround);
+            tiltPos(tiltGround);
             sleep(600);
 
-            if(i < 2)
+            if(i < 1)
             {
                 drive.followTrajectorySequence(ConeLoad);
                 elevatorAuto(cones[i]);
