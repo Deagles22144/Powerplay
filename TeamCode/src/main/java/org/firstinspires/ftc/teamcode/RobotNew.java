@@ -37,7 +37,7 @@ public class RobotNew extends LinearOpMode {
 
     public static double armHighAuto = 1;
     public static double armHigh = 0.89;
-    public static double armMid = 0.875;
+    public static double armMid = 0.925;
     public static double armLow = 0.37;
     public static double armGround = 0.1;
 
