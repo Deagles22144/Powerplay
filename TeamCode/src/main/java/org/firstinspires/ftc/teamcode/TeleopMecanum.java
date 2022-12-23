@@ -78,7 +78,7 @@ public class TeleopMecanum extends RobotNew {
             elevatorMidAuto();
         }
 
-            if (timerBrakeMid && elapsedTime.seconds() >= 0.8) {
+            if (timerBrakeMid && elapsedTime.seconds() >= 1.4) {
                 timerBrake1 = false;
                 timerBrakeMid = false;
                 timerBrake1 = false;

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
@@ -26,26 +25,31 @@ public class BlueLeft extends QRcode {
 
         TrajectorySequence Preload = drive.trajectorySequenceBuilder(startPose)
                 .setTangent(Math.toRadians(-90))
-                .splineToConstantHeading(new Vector2d(35, 25), Math.toRadians(-90))
-                .addDisplacementMarker(2,() -> {
+                .splineToSplineHeading(new Pose2d(35, 25, Math.toRadians(90)),Math.toRadians(-90))
+                .addDisplacementMarker(2,() ->       {
                     armPos(0.23);
                 })
                 .addDisplacementMarker(10,() -> {
                     // tiltPos(tiltHigh);
                     elevatorHighAuto();
                 })
-                .splineToSplineHeading(new Pose2d(32, 10, Math.toRadians(45)), Math.toRadians(-115))
+                .splineToSplineHeading(new Pose2d(33, 12, Math.toRadians(45)), Math.toRadians(-115))
                 //.waitSeconds(1)
                 .build();
 
+        TrajectorySequence backDrive = drive.trajectorySequenceBuilder(Preload.end())
+                .back(6, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                .build();
 
-        TrajectorySequence FirstDriveToCones = drive.trajectorySequenceBuilder(Preload.end())
+        TrajectorySequence FirstDriveToCones = drive.trajectorySequenceBuilder(backDrive.end())
                 .setTangent(Math.toRadians(50))
                 .splineToSplineHeading(new Pose2d(43, 14, Math.toRadians(0)),Math.toRadians(0))
                 .splineToSplineHeading(new Pose2d(60,14, Math.toRadians(0)),Math.toRadians(0))
                 .addDisplacementMarker(8,() -> {
                     elevatorAuto(cones[0]);
                     tiltPos(tiltGround);
+
                 })
                 .forward(3.0, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
@@ -53,15 +57,20 @@ public class BlueLeft extends QRcode {
 
         TrajectorySequence ConeUnload = drive.trajectorySequenceBuilder(new Pose2d(60,14, Math.toRadians(0)))
                 .setTangent(Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(45, 14, Math.toRadians(0)),Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(45, 13, Math.toRadians(0)),Math.toRadians(180))
                 .addDisplacementMarker(2,() -> {
                     //tiltPos(tiltHigh);
                     elevatorHighAuto();
                 })
 
-                .splineToSplineHeading(new Pose2d(33, 12 , Math.toRadians(45)),Math.toRadians(-145),SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                .splineToSplineHeading(new Pose2d(32.5, 12 , Math.toRadians(45)),Math.toRadians(-145),SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .waitSeconds(1)
+                .build();
+
+        TrajectorySequence SecondbackDrive = drive.trajectorySequenceBuilder(ConeUnload.end())
+                .back(6, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
         TrajectorySequence ConeLoad = drive.trajectorySequenceBuilder(ConeUnload.end())//FirstBackDrive.end())
@@ -77,25 +86,28 @@ public class BlueLeft extends QRcode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
+
+
+
         /** --------- Park Auto Trajectories ----------**/
 
-        TrajectorySequence ParkMid  = drive.trajectorySequenceBuilder(ConeUnload.end())
+        TrajectorySequence ParkMid  = drive.trajectorySequenceBuilder(SecondbackDrive.end())
                 .setTangent(0)
                 .lineToLinearHeading(new Pose2d(35,24,Math.toRadians(90)))
                 .build();
 
-        TrajectorySequence ParkRight = drive.trajectorySequenceBuilder(ConeUnload.end())
+        TrajectorySequence ParkRight = drive.trajectorySequenceBuilder(SecondbackDrive.end())
                 .setTangent(180)
                 .splineToSplineHeading(new Pose2d(32,12,Math.toRadians(0)),Math.toRadians(180))
                 .splineToSplineHeading( new Pose2d(10,25,Math.toRadians(-90)),Math.toRadians(90))
 
                 .build();
 
-        TrajectorySequence ParkLeft = drive.trajectorySequenceBuilder(ConeUnload.end())
+        TrajectorySequence ParkLeft = drive.trajectorySequenceBuilder(SecondbackDrive.end())
                 .setTangent(90)
-                .splineToSplineHeading(new Pose2d(35,18,Math.toRadians(-90)),Math.toRadians(80))
-                .splineToSplineHeading( new Pose2d(45,35,Math.toRadians(180)),Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(60,35,Math.toRadians(180)),Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(35,18,Math.toRadians(90)),Math.toRadians(90))
+                .splineToSplineHeading( new Pose2d(45,35,Math.toRadians(0)),Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(60,35,Math.toRadians(0)),Math.toRadians(0))
                 .build();
 
 
@@ -105,6 +117,7 @@ public class BlueLeft extends QRcode {
 //        elevatorHigh();
         armPos(armHighAuto);
         sleep(2500);
+        drive.followTrajectorySequence(backDrive);
 
         if (elevator1.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 20) || elevator0.getCurrentPosition() >= elevatoeHighPos - (elevatoeHighPos / 20))
         {
@@ -135,7 +148,7 @@ public class BlueLeft extends QRcode {
         for (int i = 1; i < 2; i++)
         {
 
-            drive.setPoseEstimate(new Pose2d(63,drive.getPoseEstimate().getY(), drive.getPoseEstimate().getHeading()/*Math.toRadians(0)*/));
+            drive.setPoseEstimate(new Pose2d(63,drive.getPoseEstimate().getY(), drive.getPoseEstimate().getHeading()));
 
             claw.setPosition(clawClose);
             tiltPos(tiltGround);
@@ -145,7 +158,8 @@ public class BlueLeft extends QRcode {
             drive.followTrajectorySequence(ConeUnload);
 //            elevatorHigh();
             armPos(armHighAuto);
-            sleep(2000);
+            sleep(2500);
+            drive.followTrajectorySequence(SecondbackDrive);
 
 /*
             elevatorHigh();

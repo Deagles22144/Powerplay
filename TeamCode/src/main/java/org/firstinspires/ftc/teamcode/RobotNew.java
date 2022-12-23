@@ -22,7 +22,7 @@ public class RobotNew extends LinearOpMode {
     public static int elevatorLowPos = 200;
     public static int elevatorGroundPos = 0;
 
-    int[] cones = {425, 325, 130, 100, 0};
+    int[] cones = {475, 275, 130, 100, 0};
 
     // cone 1 = 700  cone 2 = 600 cone 3 = 400 cone 4 = 200 cone 5 = 0
 
@@ -36,9 +36,9 @@ public class RobotNew extends LinearOpMode {
 
 
     public static double armHighAuto = 1;
-    public static double armHigh = 0.89;
-    public static double armMid = 0.925;
-    public static double armLow = 0.37;
+    public static double armHigh = 0.93;
+    public static double armMid = 0.97;
+    public static double armLow = 0.4;
     public static double armGround = 0.1;
 
 
