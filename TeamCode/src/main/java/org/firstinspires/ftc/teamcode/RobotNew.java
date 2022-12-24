@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Config
 public class RobotNew extends LinearOpMode {
     public static int elevatoeHighPos = 1650;
-    public static int elevatorMiddlePos = 850;
+    public static int elevatorMiddlePos = 750;
     public static int elevatorLowPos = 200;
     public static int elevatorGroundPos = 0;
 
@@ -31,7 +31,7 @@ public class RobotNew extends LinearOpMode {
 
 
     public static double tiltHigh = 0.8;
-    public static double tiltMid = 0.85;
+    public static double tiltMid = 0.75;
     public static double tiltLow = 0.1;
     public static double tiltGround = 0.1;
 

@@ -79,9 +79,7 @@ public class TeleopMecanum extends RobotNew {
         }
 
             if (timerBrakeMid && elapsedTime.seconds() >= 1) {
-                timerBrake1 = false;
                 timerBrakeMid = false;
-                timerBrake1 = false;
                 elevatorMid();
             }
 
@@ -151,6 +149,7 @@ public class TeleopMecanum extends RobotNew {
         telemetry.addLine("claw position: " + claw.getPosition());
         telemetry.addLine("elevator is at: " + elevator0.getCurrentPosition());
         telemetry.addLine("arm0 is at: " + arm0.getPosition());
+        telemetry.addLine("arm1 is at: " + arm1.getPosition());
         telemetry.addLine("timer: " + elapsedTime.seconds());
         telemetry.addLine("timebreake is: " + timerBrake);
         telemetry.addLine("timebreake1 is: " + timerBrake1);
