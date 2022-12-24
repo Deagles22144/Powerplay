@@ -22,24 +22,25 @@ public class RobotNew extends LinearOpMode {
     public static int elevatorLowPos = 200;
     public static int elevatorGroundPos = 0;
 
-    int[] cones = {475, 275, 130, 100, 0};
+    int[] cones = {465, 275, 130, 100, 0};
 
     // cone 1 = 700  cone 2 = 600 cone 3 = 400 cone 4 = 200 cone 5 = 0
 
-    public static double clawClose = 0.25;
-    public static double clawOpen = 0.08;
+    public static double clawClose = 0.26;
+    public static double clawOpen = 0.1;
+
 
     public static double tiltHigh = 0.8;
-    public static double tiltMid = 0.8;
+    public static double tiltMid = 0.85;
     public static double tiltLow = 0.1;
     public static double tiltGround = 0.1;
 
 
     public static double armHighAuto = 1;
-    public static double armHigh = 0.93;
-    public static double armMid = 0.97;
-    public static double armLow = 0.4;
-    public static double armGround = 0.1;
+    public static double armHigh = 1;
+    public static double armMid = 1;
+    public static double armLow = 0.45;
+    public static double armGround = 0.15;
 
 
 

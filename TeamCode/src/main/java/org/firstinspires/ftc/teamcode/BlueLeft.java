@@ -33,7 +33,7 @@ public class BlueLeft extends QRcode {
                     // tiltPos(tiltHigh);
                     elevatorHighAuto();
                 })
-                .splineToSplineHeading(new Pose2d(33, 12, Math.toRadians(45)), Math.toRadians(-115))
+                .splineToSplineHeading(new Pose2d(34, 13, Math.toRadians(45)), Math.toRadians(-115))
                 //.waitSeconds(1)
                 .build();
 
@@ -63,7 +63,7 @@ public class BlueLeft extends QRcode {
                     elevatorHighAuto();
                 })
 
-                .splineToSplineHeading(new Pose2d(32.5, 12 , Math.toRadians(45)),Math.toRadians(-145),SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                .splineToSplineHeading(new Pose2d(34, 13 , Math.toRadians(45)),Math.toRadians(-145),SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .waitSeconds(1)
                 .build();
@@ -97,14 +97,13 @@ public class BlueLeft extends QRcode {
                 .build();
 
         TrajectorySequence ParkRight = drive.trajectorySequenceBuilder(SecondbackDrive.end())
-                .setTangent(180)
-                .splineToSplineHeading(new Pose2d(32,12,Math.toRadians(0)),Math.toRadians(180))
-                .splineToSplineHeading( new Pose2d(10,25,Math.toRadians(-90)),Math.toRadians(90))
-
+                .setTangent(90)
+                .splineToSplineHeading(new Pose2d(28,12,Math.toRadians(0)),Math.toRadians(180))
+                .splineToSplineHeading( new Pose2d(4,25,Math.toRadians(-90)),Math.toRadians(80))
                 .build();
 
         TrajectorySequence ParkLeft = drive.trajectorySequenceBuilder(SecondbackDrive.end())
-                .setTangent(90)
+                .setTangent(0)
                 .splineToSplineHeading(new Pose2d(35,18,Math.toRadians(90)),Math.toRadians(90))
                 .splineToSplineHeading( new Pose2d(45,35,Math.toRadians(0)),Math.toRadians(0))
                 .splineToSplineHeading(new Pose2d(60,35,Math.toRadians(0)),Math.toRadians(0))
@@ -203,16 +202,19 @@ public class BlueLeft extends QRcode {
         if (tagOfInterest == null || tagOfInterest.id == parkLeft)
         {
             //left code
+            armPos(armGround);
             drive.followTrajectorySequence(ParkLeft);
 
         } else if (tagOfInterest.id == parkMiddle)
         {
             //middle code
+            armPos(armGround);
             drive.followTrajectorySequence(ParkMid);
 
         } else if (tagOfInterest.id == parkRight)
         {
             //right code
+            armPos(armGround);
             drive.followTrajectorySequence(ParkRight);
 
         }
