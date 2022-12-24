@@ -189,16 +189,19 @@ public class BlueRight extends QRcode {
             if (tagOfInterest == null || tagOfInterest.id == parkLeft)
             {
                 //left code
+                armPos(armGround);
                 drive.followTrajectorySequence(ParkLeft);
 
             } else if (tagOfInterest.id == parkMiddle)
             {
                 //middle code
+                armPos(armGround);
                 drive.followTrajectorySequence(ParkMid);
 
             } else if (tagOfInterest.id == parkRight)
             {
                 //right code
+                armPos(armGround);
                 drive.followTrajectorySequence(ParkRight);
 
             }
