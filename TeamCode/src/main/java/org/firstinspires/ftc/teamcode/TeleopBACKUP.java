@@ -119,7 +119,7 @@ public class TeleopBACKUP extends RobotNew {
 
             if (elevator0.getCurrentPosition() <= elevatorMiddlePos/2 && isGround) {
                 armPos(armGround);
-                tiltPos(tiltGround);
+                //tiltPos(tiltGround);
                 isGround = false;
             }
 
@@ -143,12 +143,12 @@ public class TeleopBACKUP extends RobotNew {
 
 
 
-            if (gamepad2.right_stick_y<0 && tilt0.getPosition()<0.1){
-                tiltPos(tilt0.getPosition()+0.004);
-            }
-            else if (gamepad2.right_stick_y>0){
-                tiltPos(tilt0.getPosition()-0.004);
-            }
+//            if (gamepad2.right_stick_y<0 && tilt0.getPosition()<0.1){
+//                tiltPos(tilt0.getPosition()+0.004);
+       //     }
+//            else if (gamepad2.right_stick_y>0){
+//                tiltPos(tilt0.getPosition()-0.004);
+        //    }
 
             if (rightBumper) {
                 ToggleClaw();

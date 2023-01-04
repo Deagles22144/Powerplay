@@ -22,7 +22,7 @@ public class TeleopMecanum extends RobotNew {
         while (opModeIsActive() && !isStopRequested()) {
 
 
-            double botHeading = -imu.getAngularOrientation().firstAngle - Math.PI;
+            double botHeading = -imu.getAngularOrientation().firstAngle /*- Math.PI*/;
 
             double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
             double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
@@ -51,37 +51,58 @@ public class TeleopMecanum extends RobotNew {
             else if (gamepad2.left_stick_y>0){
                 armPos(arm0.getPosition() - 0.004);
             }
+        /** Elevator Up**/
+        if(gamepad2.right_trigger >= 0.1) {
+            elevatorPower(1);
+            elevatorTargetPosition(elevator0.getCurrentPosition()+40);
+        }
+        /***--------Elevator Down***/
+        else if(gamepad2.left_trigger >= 0.1)
+            {
+                elevatorPower(1);
+                elevatorTargetPosition(elevator0.getCurrentPosition() -40);
+            }
+            
+//        if (gamepad2.left_trigger == 0 || gamepad2.right_trigger == 0) {
+//            elevatorTargetPosition(elevator0.getCurrentPosition());
+//        }
 
-        /***-------Elevator HIGH***/
+
+        /***Elevator HIGH***/
         if (gamepad2.dpad_up) {
             elapsedTime.reset();
-            timerBrakeMid = false;
-            timerBrake1 = true;
             timerBrake = false;
-//            tiltPos(tiltHigh);
-            elevatorHighAuto();
-        }
-
-        if (timerBrake1 && elapsedTime.seconds() >= 1) {
             timerBrake1 = false;
+            isGround = false;
             elevatorHigh();
+//            timerBrakeMid = false;
+//            tiltPos(tiltHigh);
+//            elevatorHighAuto();
         }
 
-        /***-------Elevator Mid***/
+
+//        if (timerBrake1 && elapsedTime.seconds() >= 1.2
+//        ) {
+//            timerBrake1 = false;
+//            elevatorHigh();
+//        }
+
+            /***Elevator Mid***/
 
         if (gamepad2.dpad_left) {
             elapsedTime.reset();
-            timerBrakeMid = true;
+//            timerBrakeMid = true;
             timerBrake = false;
             timerBrake1 = false;
-//            elevatorMid();
-            elevatorMidAuto();
+            isGround = false;
+            elevatorMid();
+//            elevatorMidAuto();
         }
 
-            if (timerBrakeMid && elapsedTime.seconds() >= 1) {
-                timerBrakeMid = false;
-                elevatorMid();
-            }
+//            if (timerBrakeMid && elapsedTime.seconds() >= 1) {
+//                timerBrakeMid = false;
+//                elevatorMid();
+//            }
 
         /***-------Elevator LOW***/
 
@@ -89,24 +110,37 @@ public class TeleopMecanum extends RobotNew {
             timerBrake = false;
             timerBrakeMid = false;
             timerBrake1 = false;
+            isGround = false;
             elevatorLow();
         }
 
         /***-------Elevator Ground***/
 
         if (gamepad2.dpad_right) {
+            elapsedTime.reset();
             timerBrake = false;
-            timerBrake1 = false;
+            timerBrake1 = true;
+           // timerBrake2 = true;
             isGround  = true;
-            timerBrakeMid = false;
+//            timerBrakeMid = false;
             elevatorGround();
         }
+    //    if (timerBrake1 && elapsedTime.seconds() >= 0.05) {
+      //      claw.setPosition(clawClose);
+        //    timerBrake1 = false;
+        //}
 
-        if (elevator0.getCurrentPosition() <= elevatorMiddlePos/2 && isGround) {
-            armPos(armGround);
-            tiltPos(tiltGround);
-            isGround = false;
+        if (timerBrake1 && elapsedTime.seconds() >= 0.7) {
+                claw.setPosition(clawOpen);
+                timerBrake1 = false;
         }
+
+
+//            if (elevator0.getCurrentPosition() <= elevatorMiddlePos/2 && isGround) {
+//            armPos(armGround);
+//            tiltPos(tiltGround);
+//            isGround = false;
+//        }
 
 
         if (gamepad1.right_trigger > 0.5) {
@@ -128,11 +162,11 @@ public class TeleopMecanum extends RobotNew {
 
 
 
-        if (gamepad2.right_stick_y<0 && tilt0.getPosition()<0.1){
-            tiltPos(tilt0.getPosition()+0.004);
+        if (gamepad2.right_stick_y<0 /*&& tilt0.getPosition()<0.1*/){
+           // tiltPos(tilt0.getPosition()+0.004);
         }
         else if (gamepad2.right_stick_y>0){
-            tiltPos(tilt0.getPosition()-0.004);
+          //  tiltPos(tilt0.getPosition()-0.004);
         }
 
         if (rightBumper) {
@@ -142,8 +176,18 @@ public class TeleopMecanum extends RobotNew {
             armPos(0.2);
         }
 
-        if (!rightBumper) {
+        if (elapsedTime.seconds() >= 0.3 && timerBrake && claw.getPosition() == clawClose && arm0.getPosition() == armHigh) {
+                armPos(armHigh);
+        }
+
+
+            if (!rightBumper) {
             wasPressed = true;
+        }
+
+        if(!isGround && claw.getPosition() == clawOpen)
+        {
+            armPos(0.77);
         }
 
         telemetry.addLine("claw position: " + claw.getPosition());

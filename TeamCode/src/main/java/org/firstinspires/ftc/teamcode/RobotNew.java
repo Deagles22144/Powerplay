@@ -17,36 +17,36 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Config
 public class RobotNew extends LinearOpMode {
-    public static int elevatoeHighPos = 1650;
-    public static int elevatorMiddlePos = 750;
-    public static int elevatorLowPos = 200;
+    public static int elevatoeHighPos = 1610;
+    public static int elevatorMiddlePos = 700;
+    public static int elevatorLowPos = 0;
     public static int elevatorGroundPos = 0;
 
-    int[] cones = {465, 275, 130, 100, 0};
+    int[] cones = {540, 460, 340, 200, 0};
 
-    // cone 1 = 700  cone 2 = 600 cone 3 = 400 cone 4 = 200 cone 5 = 0
+    // cone 1 = 544  cone 2 = 460 cone 3 = 340 cone 4 = 200 cone 5 = 0
 
-    public static double clawClose = 0.26;
-    public static double clawOpen = 0.1;
+    public static double clawClose = 0.3;
+    public static double clawOpen = 0.14;
 
 
-    public static double tiltHigh = 0.8;
-    public static double tiltMid = 0.75;
-    public static double tiltLow = 0.1;
-    public static double tiltGround = 0.1;
+//    public static double tiltHigh = 0.8;
+  //  public static double tiltMid = 0.75;
+    //public static double tiltLow = 0.1;
+    //public static double tiltGround = 0.1;
 
 
     public static double armHighAuto = 1;
-    public static double armHigh = 1;
-    public static double armMid = 1;
-    public static double armLow = 0.45;
+    public static double armHigh = 0.73;
+    public static double armMid = 0.71;
+    public static double armLow = 0.75;
     public static double armGround = 0.15;
 
 
 
     public static double tiltAuto = 0;
 
-    boolean isGround = false;
+    boolean isGround = true;
 
     public BNO055IMU imu;
 
@@ -57,7 +57,7 @@ public class RobotNew extends LinearOpMode {
 
     public SampleMecanumDrive drive;
     public DcMotor elevator0,elevator1;
-    public Servo claw, tilt0,tilt1, arm0, arm1;
+    public Servo claw , arm0, arm1/*,tilt0,tilt1*/;
     public ElapsedTime runtime = new ElapsedTime();
 
 
@@ -71,6 +71,7 @@ public class RobotNew extends LinearOpMode {
     boolean wasPressed = true;
     boolean timerBrake = false;
     boolean timerBrake1 = false;
+    boolean timerBrake2 = true;
     boolean timerBrakeMid = false;
     ElapsedTime elapsedTime = new ElapsedTime();
 
@@ -84,8 +85,8 @@ public class RobotNew extends LinearOpMode {
 
         claw = hardwareMap.servo.get("claw");
 
-        tilt0 = hardwareMap.servo.get("tilt0");
-        tilt1 = hardwareMap.servo.get("tilt1");
+        //tilt0 = hardwareMap.servo.get("tilt0");
+        //tilt1 = hardwareMap.servo.get("tilt1");
 
         arm0 = hardwareMap.servo.get("arm0");
         arm1 = hardwareMap.servo.get("arm1");
@@ -95,8 +96,9 @@ public class RobotNew extends LinearOpMode {
         elevator1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         elevator0.setDirection(DcMotorSimple.Direction.REVERSE);
+//        elevator1.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        tilt1.setDirection(Servo.Direction.REVERSE);
+        //tilt1.setDirection(Servo.Direction.REVERSE);
 
         arm1.setDirection(Servo.Direction.REVERSE);
 
@@ -114,7 +116,7 @@ public class RobotNew extends LinearOpMode {
 
         claw.setPosition(clawClose);
         armPos(armGround);
-        tiltPos(tiltGround);
+        //tiltPos(tiltGround);
 
 
     }
@@ -149,7 +151,7 @@ public class RobotNew extends LinearOpMode {
         elevator1.setPower(power);
     }
     public void elevatorTargetPosition(int TargetPosition){
-        elevator0.setTargetPosition(TargetPosition);
+        elevator0.setTargetPosition(TargetPosition+40);
         elevator1.setTargetPosition(TargetPosition);
     }
     public void elevatorSetMode(){
@@ -164,8 +166,9 @@ public class RobotNew extends LinearOpMode {
     }
 
     public void tiltPos(double setPos) {
-        tilt0.setPosition(setPos);
-        tilt1.setPosition(setPos);
+        //tilt0.setPosition(setPos);
+        //tilt1.setPosition(setPos);
+
     }
 
     public void elevatorAuto(int Position )
@@ -174,7 +177,7 @@ public class RobotNew extends LinearOpMode {
         armPos(armGround);
         elevatorPower(0.7);
         elevatorSetMode();
-        tiltPos(tiltGround);
+       // tiltPos(tiltGround);
     }
     public void elevatorAfterColloctAuto() {
         elevatorTargetPosition(1150);
@@ -187,7 +190,7 @@ public class RobotNew extends LinearOpMode {
        // armPos(armHigh);
         elevatorPower(0.7);
         elevatorSetMode();
-        tiltPos(tiltHigh);
+       // tiltPos(tiltHigh);
 
     }
 
@@ -195,18 +198,18 @@ public class RobotNew extends LinearOpMode {
     public void elevatorHigh() {
         elevatorTargetPosition(elevatoeHighPos);
         armPos(armHigh);
-        elevatorPower(0.7);
+        elevatorPower(1);
         elevatorSetMode();
-        tiltPos(tiltHigh);
+      //  tiltPos(tiltHigh);
 
     }
 
     public void elevatorMidAuto() {
         elevatorTargetPosition(elevatorMiddlePos);
         // armPos(armHigh);
-        elevatorPower(0.7);
+        elevatorPower(1);
         elevatorSetMode();
-        tiltPos(tiltMid);
+        //tiltPos(tiltMid);
 
     }
 
@@ -214,26 +217,32 @@ public class RobotNew extends LinearOpMode {
     public void elevatorMid() {
         elevatorTargetPosition(elevatorMiddlePos);
         armPos(armMid);
-        elevatorPower(0.7);
+        elevatorPower(1);
         elevatorSetMode();
-        tiltPos(tiltMid);
+    //    tiltPos(tiltMid);
     }
 
     public void elevatorLow() {
         elevatorTargetPosition(elevatorLowPos);
         armPos(armLow);
-        elevatorPower(0.7);
+        elevatorPower(1);
         elevatorSetMode();
-        tiltPos(tiltLow);
+       // tiltPos(tiltLow);
     }
 
 
     public void elevatorGround() {
-        armPos(armLow);
-        elevatorTargetPosition(elevatorGroundPos);
+        armPos(armGround);
+        elevatorTargetPosition(elevator0.getCurrentPosition() + 100);
         elevatorPower(0.7);
         elevatorSetMode();
-        tiltPos(tiltGround);
+
+        elevatorTargetPosition(elevatorGroundPos);
+        elevatorPower(1);
+        elevatorSetMode();
+       // tiltPos(tiltGround);
+        claw.setPosition(clawClose);
+        close = false;
     }
 
 

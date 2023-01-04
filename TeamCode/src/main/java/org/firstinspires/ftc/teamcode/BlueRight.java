@@ -45,7 +45,7 @@ public class BlueRight extends QRcode {
                 .splineToSplineHeading(new Pose2d(-60,15, Math.toRadians(180)),Math.toRadians(180))
                 .addDisplacementMarker(8,() -> {
                     elevatorAuto(cones[0]);
-                    tiltPos(tiltGround);
+                 //   tiltPos(tiltGround);
                 })
                 .forward(3.0, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
@@ -126,7 +126,7 @@ public class BlueRight extends QRcode {
         }
 
         armPos(armGround);
-        tiltPos(tiltGround);
+       // tiltPos(tiltGround);
         sleep(600);
 
         drive.followTrajectorySequence(FirstDriveToCones);
@@ -138,7 +138,7 @@ public class BlueRight extends QRcode {
             drive.setPoseEstimate(new Pose2d(-63,drive.getPoseEstimate().getY()/*15*/, drive.getPoseEstimate().getHeading() /*Math.toRadians(180)*/));
 
             claw.setPosition(clawClose);
-            tiltPos(tiltGround);
+          //  tiltPos(tiltGround);
             sleep(1000);
             elevatorAfterColloctAuto();
 
@@ -173,7 +173,7 @@ public class BlueRight extends QRcode {
             }
 
             armPos(armGround);
-            tiltPos(tiltGround);
+         //   tiltPos(tiltGround);
             sleep(600);
 
             if(i < 1)
