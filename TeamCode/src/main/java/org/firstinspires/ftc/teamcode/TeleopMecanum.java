@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
@@ -40,6 +41,13 @@ public class TeleopMecanum extends RobotNew {
             drive.rf.setPower(/*y - x - rx*/rfPower);
             drive.rb.setPower(/*y + x - rx*/rbPower);
 
+            if (gamepad1.circle){
+                BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+                parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+                imu.initialize(parameters);
+
+            }
+
             //double rt = gamepad1.right_trigger;
             boolean rightBumper = gamepad1.right_bumper;
 
@@ -54,13 +62,12 @@ public class TeleopMecanum extends RobotNew {
         /** Elevator Up**/
         if(gamepad2.right_trigger >= 0.1) {
             elevatorPower(1);
-            elevatorTargetPosition(elevator0.getCurrentPosition()+40);
+            elevatorTargetPosition(elevator0.getCurrentPosition()+60);
         }
         /***--------Elevator Down***/
-        else if(gamepad2.left_trigger >= 0.1)
-            {
+        else if(gamepad2.left_trigger >= 0.1) {
                 elevatorPower(1);
-                elevatorTargetPosition(elevator0.getCurrentPosition() -40);
+                elevatorTargetPosition(elevator0.getCurrentPosition() -60);
             }
             
 //        if (gamepad2.left_trigger == 0 || gamepad2.right_trigger == 0) {
@@ -148,17 +155,16 @@ public class TeleopMecanum extends RobotNew {
             x = gamepad1.left_stick_x / 2;
             rx = gamepad1.right_stick_x / 2;
         }
-            else if (gamepad1.left_trigger > 0.5) {
+        else if (gamepad1.left_trigger > 0.5) {
                 y = -gamepad1.left_stick_y / 10;
                 x = gamepad1.left_stick_x / 10;
                 rx = gamepad1.right_stick_x / 10;
             }
-        else {
+            else {
             y = -gamepad1.left_stick_y ;
             x = gamepad1.left_stick_x ;
             rx = gamepad1.right_stick_x ;
-
-        }
+            }
 
 
 
@@ -172,21 +178,20 @@ public class TeleopMecanum extends RobotNew {
         if (rightBumper) {
             ToggleClaw();
         }
+
         if (elapsedTime.seconds() >= 0.3 && timerBrake && claw.getPosition() == clawClose) {
-            armPos(0.2);
+            armPos(0.6);
         }
 
         if (elapsedTime.seconds() >= 0.3 && timerBrake && claw.getPosition() == clawClose && arm0.getPosition() == armHigh) {
-                armPos(armHigh);
+            armPos(armHigh);
         }
 
-
-            if (!rightBumper) {
+        if (!rightBumper) {
             wasPressed = true;
         }
 
-        if(!isGround && claw.getPosition() == clawOpen)
-        {
+        if(!isGround && claw.getPosition() == clawOpen) {
             armPos(0.77);
         }
 
@@ -197,7 +202,7 @@ public class TeleopMecanum extends RobotNew {
         telemetry.addLine("timer: " + elapsedTime.seconds());
         telemetry.addLine("timebreake is: " + timerBrake);
         telemetry.addLine("timebreake1 is: " + timerBrake1);
-       // telemetry.addLine("heading: " + botHeading);
+        // telemetry.addLine("heading: " + botHeading);
         telemetry.update();
       }
     }

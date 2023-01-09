@@ -17,23 +17,26 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Config
 public class RobotNew extends LinearOpMode {
-    public static int elevatoeHighPos = 1610;
+    public static int elevatoeHighPos = 1600;
     public static int elevatorMiddlePos = 700;
     public static int elevatorLowPos = 0;
     public static int elevatorGroundPos = 0;
 
-    int[] cones = {540, 460, 340, 200, 0};
+    public static double powerDownElevator = 0.8;
+
+    int[] cones = {520, 420, 320, 200, 0};
 
     // cone 1 = 544  cone 2 = 460 cone 3 = 340 cone 4 = 200 cone 5 = 0
 
-    public static double clawClose = 0.3;
-    public static double clawOpen = 0.14;
+    public static double clawClose = 0.30;
+    public static double clawOpen = 0.18;
 
 
-//    public static double tiltHigh = 0.8;
-  //  public static double tiltMid = 0.75;
+
+    /*public static double tiltHigh = 0.8;
+    //public static double tiltMid = 0.75;
     //public static double tiltLow = 0.1;
-    //public static double tiltGround = 0.1;
+    public static double tiltGround = 0.1; */
 
 
     public static double armHighAuto = 1;
@@ -41,7 +44,7 @@ public class RobotNew extends LinearOpMode {
     public static double armMid = 0.71;
     public static double armLow = 0.75;
     public static double armGround = 0.15;
-
+    public static double armPreRelease = 0.77;
 
 
     public static double tiltAuto = 0;
@@ -152,7 +155,7 @@ public class RobotNew extends LinearOpMode {
     }
     public void elevatorTargetPosition(int TargetPosition){
         elevator0.setTargetPosition(TargetPosition+40);
-        elevator1.setTargetPosition(TargetPosition);
+        elevator1.setTargetPosition(TargetPosition+40);
     }
     public void elevatorSetMode(){
         elevator0.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -232,13 +235,13 @@ public class RobotNew extends LinearOpMode {
 
 
     public void elevatorGround() {
-        armPos(armGround);
+       /* armPos(armGround);
         elevatorTargetPosition(elevator0.getCurrentPosition() + 100);
-        elevatorPower(0.7);
-        elevatorSetMode();
-
+        elevatorPower(0.1);
+        elevatorSetMode();*/
+        armPos(armGround);
         elevatorTargetPosition(elevatorGroundPos);
-        elevatorPower(1);
+        elevatorPower(powerDownElevator);
         elevatorSetMode();
        // tiltPos(tiltGround);
         claw.setPosition(clawClose);

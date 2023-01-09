@@ -14,7 +14,7 @@ public class Parking extends QRcode {
     public void runOpMode() {
         super.runOpMode();
 
-        Pose2d startPose = new Pose2d(35, 65, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(35, 65, Math.toRadians(-90));
         drive.setPoseEstimate(startPose);
 
         while (!isStarted() && !isStopRequested()) {
