@@ -81,11 +81,19 @@ public class TeleopMecanum extends RobotNew {
             timerBrake = false;
             timerBrake1 = false;
             isGround = false;
+            isLow = false;
+            isMid = false;
+            isHigh = true;
             elevatorHigh();
+
 //            timerBrakeMid = false;
 //            tiltPos(tiltHigh);
 //            elevatorHighAuto();
         }
+            if (elevator1.getCurrentPosition() >= elevatoeHighPos - 50 && elevator1.getCurrentPosition() <= elevatoeHighPos + 50 && isHigh) {
+                armPos(armHigh);
+                isHigh = false;
+            }
 
 
 //        if (timerBrake1 && elapsedTime.seconds() >= 1.2
@@ -102,9 +110,17 @@ public class TeleopMecanum extends RobotNew {
             timerBrake = false;
             timerBrake1 = false;
             isGround = false;
+            isLow = false;
+            isMid = true;
+            isHigh = false;
             elevatorMid();
-//            elevatorMidAuto();
+//              elevatorMidAuto();
         }
+        if (elevator1.getCurrentPosition() >= elevatorMiddlePos - 50 && elevator1.getCurrentPosition()<= elevatorMiddlePos + 50 && isMid) {
+            armPos(armMid);
+            isMid = false;
+        }
+
 
 //            if (timerBrakeMid && elapsedTime.seconds() >= 1) {
 //                timerBrakeMid = false;
@@ -118,6 +134,9 @@ public class TeleopMecanum extends RobotNew {
             timerBrakeMid = false;
             timerBrake1 = false;
             isGround = false;
+            isLow = true;
+            isMid = false;
+            isHigh = false;
             elevatorLow();
         }
 
@@ -129,6 +148,9 @@ public class TeleopMecanum extends RobotNew {
             timerBrake1 = true;
            // timerBrake2 = true;
             isGround  = true;
+            isLow = false;
+            isMid = false;
+            isHigh = false;
 //            timerBrakeMid = false;
             elevatorGround();
         }
@@ -183,6 +205,11 @@ public class TeleopMecanum extends RobotNew {
             armPos(0.6);
         }
 
+        if (elapsedTime.seconds() >= 0.4 && timerBrake && claw.getPosition() == clawOpen) {
+            claw.setPosition(clawClose);
+            close = false;
+        }
+
         if (elapsedTime.seconds() >= 0.3 && timerBrake && claw.getPosition() == clawClose && arm0.getPosition() == armHigh) {
             armPos(armHigh);
         }
@@ -191,9 +218,9 @@ public class TeleopMecanum extends RobotNew {
             wasPressed = true;
         }
 
-        if(!isGround && claw.getPosition() == clawOpen) {
-            armPos(0.77);
-        }
+//        if(!isGround && claw.getPosition() == clawOpen) {
+//            armPos(0.77);
+//        }
 
         telemetry.addLine("claw position: " + claw.getPosition());
         telemetry.addLine("elevator is at: " + elevator0.getCurrentPosition());

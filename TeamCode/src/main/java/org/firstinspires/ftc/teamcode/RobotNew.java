@@ -17,19 +17,19 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Config
 public class RobotNew extends LinearOpMode {
-    public static int elevatoeHighPos = 1600;
+    public static int elevatoeHighPos = 1450;
     public static int elevatorMiddlePos = 700;
     public static int elevatorLowPos = 0;
     public static int elevatorGroundPos = 0;
 
     public static double powerDownElevator = 0.8;
 
-    int[] cones = {520, 420, 320, 200, 0};
+    int[] cones = {475, 375, 275, 200, 0};
 
     // cone 1 = 544  cone 2 = 460 cone 3 = 340 cone 4 = 200 cone 5 = 0
 
-    public static double clawClose = 0.30;
-    public static double clawOpen = 0.18;
+    public static double clawClose = 0.16;
+    public static double clawOpen = 0.0;
 
 
 
@@ -76,6 +76,7 @@ public class RobotNew extends LinearOpMode {
     boolean timerBrake1 = false;
     boolean timerBrake2 = true;
     boolean timerBrakeMid = false;
+    boolean isLow = false,isMid = false, isHigh = false;
     ElapsedTime elapsedTime = new ElapsedTime();
 
     @Override
@@ -102,6 +103,8 @@ public class RobotNew extends LinearOpMode {
 //        elevator1.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //tilt1.setDirection(Servo.Direction.REVERSE);
+        //claw.setDirection(Servo.Direction.REVERSE);
+
 
         arm1.setDirection(Servo.Direction.REVERSE);
 
@@ -200,7 +203,7 @@ public class RobotNew extends LinearOpMode {
 
     public void elevatorHigh() {
         elevatorTargetPosition(elevatoeHighPos);
-        armPos(armHigh);
+//        armPos(armHigh);
         elevatorPower(1);
         elevatorSetMode();
       //  tiltPos(tiltHigh);
@@ -219,7 +222,7 @@ public class RobotNew extends LinearOpMode {
 
     public void elevatorMid() {
         elevatorTargetPosition(elevatorMiddlePos);
-        armPos(armMid);
+       // armPos(armMid);
         elevatorPower(1);
         elevatorSetMode();
     //    tiltPos(tiltMid);
