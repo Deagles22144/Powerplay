@@ -23,45 +23,13 @@ public class BlueLeftLow extends QRcode {
             QrScan();
         }
 
-        /*TrajectorySequence Preload = drive.trajectorySequenceBuilder(startPose)
-                .setTangent(Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(35, 17, Math.toRadians(-90)), Math.toRadians(-90))
-                .addDisplacementMarker(() -> {
-                    elevatorLow();
-                })
-                .splineToSplineHeading(new Pose2d(42, 12, Math.toRadians(0)), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(51, 12, Math.toRadians(0)), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(56, 15, Math.toRadians(-45)), Math.toRadians(45))
-                .build();
-
-        TrajectorySequence coneLoad = drive.trajectorySequenceBuilder(Preload.end())
-                .setTangent(Math.toRadians(180))
-                .lineToLinearHeading((new Pose2d(58, 12, Math.toRadians(0))))
-                *//*.splineToSplineHeading(new Pose2d(58, 15, Math.toRadians(-45)), Math.toRadians(180))
-                .setTangent(Math.toRadians(0))
-                .lineToLinearHeading(new Pose2d(58, 12, Math.toRadians(0)))
-                *//*
-                .waitSeconds(1)
-                .build();
-
-        TrajectorySequence coneUnload = drive.trajectorySequenceBuilder(coneLoad.end())
-                .setTangent(Math.toRadians(180))
-                .addDisplacementMarker(() -> {
-                    elevatorLow();
-                })
-                .lineToLinearHeading(new Pose2d(58 , 15 ,Math.toRadians(-45)))
-                .waitSeconds(1)
-
-                *//*.setTangent(45)
-                .lineToLinearHeading(new Pose2d(58, 15, Math.toRadians(-45)))*//*
-                .build();*/
 
         TrajectorySequence Preload = drive.trajectorySequenceBuilder(startPose)
                 .setTangent(Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(36 , 20, Math.toRadians(-90)), Math.toRadians(-90))
-                .addDisplacementMarker(40, () -> {
+                .splineToSplineHeading(new Pose2d(37 , 19, Math.toRadians(-90)), Math.toRadians(-90))
+                /*.addDisplacementMarker(40, () -> {
                     armPos(0.6);
-                })
+                })*/
                 .addDisplacementMarker(() -> {
                     elevatorMid();
                     armPos(armMid);
@@ -92,7 +60,7 @@ public class BlueLeftLow extends QRcode {
                     armPos(armMid);
                 })
                 .splineToSplineHeading(new Pose2d(44,12,Math.toRadians(0)), Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(30, 17, Math.toRadians(-50)), Math.toRadians(145))
+                .splineToSplineHeading(new Pose2d(32, 15, Math.toRadians(-50)), Math.toRadians(145))
                // .lineToLinearHeading(new Pose2d(58 , 15 ,Math.toRadians(-45)))
                 .waitSeconds(0.2)
                 /*.setTangent(45)
@@ -121,7 +89,7 @@ public class BlueLeftLow extends QRcode {
 
         waitForStart();
 
-        armPos(0.225);
+        armPos(0.6);
         drive.followTrajectorySequence(Preload);
         //armPos(armHigh);
         sleep(850);
