@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
@@ -58,11 +59,14 @@ public class BlueLeftLow extends QRcode {
         TrajectorySequence Preload = drive.trajectorySequenceBuilder(startPose)
                 .setTangent(Math.toRadians(-90))
                 .splineToSplineHeading(new Pose2d(36 , 20, Math.toRadians(-90)), Math.toRadians(-90))
+                .addDisplacementMarker(40, () -> {
+                    armPos(0.6);
+                })
                 .addDisplacementMarker(() -> {
                     elevatorMid();
                     armPos(armMid);
                 })
-                .lineToSplineHeading(new Pose2d(31, 18, Math.toRadians(-50)))
+                .lineToSplineHeading(new Pose2d(32, 17, Math.toRadians(-50)))
                 .build();
 
         TrajectorySequence coneLoad = drive.trajectorySequenceBuilder(Preload.end())
@@ -99,7 +103,7 @@ public class BlueLeftLow extends QRcode {
 
         TrajectorySequence ParkMid  = drive.trajectorySequenceBuilder(coneUnload.end())
                 .setTangent(0)
-                .lineToLinearHeading(new Pose2d(35,24,Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-38,12,Math.toRadians(180)))
                 .build();
 
         TrajectorySequence ParkRight = drive.trajectorySequenceBuilder(coneUnload.end())
@@ -110,13 +114,14 @@ public class BlueLeftLow extends QRcode {
 
         TrajectorySequence ParkLeft = drive.trajectorySequenceBuilder(coneUnload.end())
                 .setTangent(Math.toRadians(0))
-                .lineToLinearHeading(new Pose2d(63, 38, Math.toRadians(180)))
+                .splineToSplineHeading(new Pose2d(35, 25, Math.toRadians(0)),Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(70, 35),Math.toRadians(0))
                 .build();
 
 
         waitForStart();
 
-        armPos(0.6);
+        armPos(0.225);
         drive.followTrajectorySequence(Preload);
         //armPos(armHigh);
         sleep(850);
