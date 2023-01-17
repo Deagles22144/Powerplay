@@ -75,13 +75,13 @@ public class BlueLeftMid extends QRcode {
                 .build();
 
         TrajectorySequence ParkRight = drive.trajectorySequenceBuilder(coneUnload.end())
-                .setTangent(210)
-                .splineToSplineHeading(new Pose2d(28,12,Math.toRadians(0)),Math.toRadians(180))
+                .setTangent(220)
+                .splineToSplineHeading(new Pose2d(25,11,Math.toRadians(0)),Math.toRadians(180))
                 .splineToSplineHeading( new Pose2d(11,25,Math.toRadians(-90)),Math.toRadians(90))
                 .build();
 
         TrajectorySequence ParkLeft = drive.trajectorySequenceBuilder(coneUnload.end())
-                .setTangent(Math.toRadians(0))
+                .setTangent(Math.toRadians(-50))
                 .splineToSplineHeading(new Pose2d(35, 25, Math.toRadians(0)),Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(70, 35),Math.toRadians(0))
                 .build();
