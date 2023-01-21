@@ -34,7 +34,7 @@ public class BlueRightMid extends QRcode {
                     elevatorMid();
                     armPos(armMid);
                 })
-                .lineToSplineHeading(new Pose2d(-32, 17, Math.toRadians(-130)))
+                .lineToSplineHeading(new Pose2d(-33, 16, Math.toRadians(-130)))
                 .build();
 
         TrajectorySequence coneLoad = drive.trajectorySequenceBuilder(Preload.end())
@@ -57,15 +57,10 @@ public class BlueRightMid extends QRcode {
                 .setTangent(Math.toRadians(0))
                 .addDisplacementMarker( () -> {
                     elevatorMid();
-                    armPos(armLoadCone);
-                })
-                .splineToSplineHeading(new Pose2d(-44,12,Math.toRadians(180)), Math.toRadians(0))
-                .addDisplacementMarker( () -> {
-                    elevatorMid();
                     armPos(armMid);
                 })
-
-                .splineToSplineHeading(new Pose2d(-32, 14.5, Math.toRadians(-130)), Math.toRadians(35))
+                .splineToSplineHeading(new Pose2d(-44,12,Math.toRadians(180)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(-32.5, 15, Math.toRadians(-130)), Math.toRadians(35))
                 // .lineToLinearHeading(new Pose2d(58 , 15 ,Math.toRadians(-45)))
                 .waitSeconds(0.2)
 
