@@ -47,7 +47,7 @@ public class BlueLeftMid extends QRcode {
                // .addDisplacementMarker(() -> {
                  //   claw.setPosition(clawOpen);
                 //})
-                .forward(4.25, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                .forward(2.5, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .waitSeconds(0.17)
                 .build();
@@ -60,7 +60,7 @@ public class BlueLeftMid extends QRcode {
                     armPos(armMid);
                 })
                 .splineToSplineHeading(new Pose2d(44,12,Math.toRadians(0)), Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(32, 15, Math.toRadians(-50)), Math.toRadians(145))
+                .splineToSplineHeading(new Pose2d(32.5, 15, Math.toRadians(-50)), Math.toRadians(145))
                // .lineToLinearHeading(new Pose2d(58 , 15 ,Math.toRadians(-45)))
                 .waitSeconds(0.2)
                 /*.setTangent(45)
@@ -89,15 +89,16 @@ public class BlueLeftMid extends QRcode {
 
         waitForStart();
 
-        armPos(0.6);
+        armPos(armLoadCone);
         drive.followTrajectorySequence(Preload);
         //armPos(armHigh);
-        sleep(850);
+        sleep(650);
         armPos(armPreRelease);
+//        sleep(300);
         claw.setPosition(clawOpen);
-        sleep(275);
+        sleep(300);
         claw.setPosition(clawClose);
-        sleep(200);
+        sleep(100);
         elevatorGround();
         sleep(300);
 
@@ -112,11 +113,13 @@ public class BlueLeftMid extends QRcode {
             elevatorTargetPosition(cones[i] + 350);
             sleep(200);
             drive.followTrajectorySequence(coneUnload);
-           // armPos(armHigh);
-            //sleep(100);
-            armPos(armPreRelease);
-            claw.setPosition(clawOpen);
+            // armPos(armHigh);
             sleep(200);
+//            armPos(armMid);
+            armPos(armPreRelease);
+            sleep(300);
+            claw.setPosition(clawOpen);
+            sleep(300);
             claw.setPosition(clawClose);
             sleep(200);
             elevatorGround();
