@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.drive.DriveConstants;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous (name="BlueLeftNew", group="AutoLeft")
-public class BlueLeftNew extends QRcode {
+@Autonomous (name="BlueLeft5Cones", group="AutoLeft")
+public class BlueLeft5Cones extends QRcode {
 
 
     @Override
@@ -34,37 +31,37 @@ public class BlueLeftNew extends QRcode {
                     elevatorMid();
                     armPos(armMid);
                 })
-                .lineToSplineHeading(new Pose2d(33, 16, Math.toRadians(-50)))
+                .lineToSplineHeading(new Pose2d(32, 16, Math.toRadians(-50)))
                 .build();
 
         TrajectorySequence coneLoad = drive.trajectorySequenceBuilder(Preload.end())
                 .setTangent(Math.toRadians(-45))
                 //.lineToLinearHeading((new Pose2d(58, 12, Math.toRadians(0))))
-                .splineToSplineHeading(new Pose2d(40, 13, Math.toRadians(0)), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(63, 13, Math.toRadians(0)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(40, 12, Math.toRadians(0)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(65, 12, Math.toRadians(0)), Math.toRadians(0))
                 //.setTangent(Math.toRadians(0))
                 //.lineToLinearHeading(new Pose2d(58, 12, Math.toRadians(0)))
                 // .addDisplacementMarker(() -> {
                 //   claw.setPosition(clawOpen);
                 //})
-                .forward(3.5, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                //.forward(3.5, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
 //                .waitSeconds(0.17)
                 .build();
 
 
-        TrajectorySequence coneUnload = drive.trajectorySequenceBuilder(new Pose2d(63,13, Math.toRadians(0))/*coneLoad.end()*/)
+        TrajectorySequence coneUnload = drive.trajectorySequenceBuilder(new Pose2d(63,12, Math.toRadians(0))/*coneLoad.end()*/)
                 .setTangent(Math.toRadians(180))
                 .addDisplacementMarker( () -> {
                     elevatorMid();
                     armPos(armMid);
                 })
                 .splineToSplineHeading(new Pose2d(44,12,Math.toRadians(0)), Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(32, 15, Math.toRadians(-50)), Math.toRadians(145))
+                .splineToSplineHeading(new Pose2d(32.5, 15, Math.toRadians(-50)), Math.toRadians(145))
                 // .lineToLinearHeading(new Pose2d(58 , 15 ,Math.toRadians(-45)))
-                .waitSeconds(0.2)
+                .waitSeconds(0.1)
                 /*.setTangent(45)
-                .lineToLinearHeading(new Pose2d(58, 15, Math.toRadians(-45)))*/
+                .lineToLinearHeading(new  Pose2d(58, 15, Math.toRadians(-45)))*/
                 .build();
 
         /** --------- Park Auto Trajectories ----------**/
@@ -75,16 +72,19 @@ public class BlueLeftNew extends QRcode {
                 .build();
 
         TrajectorySequence ParkRight = drive.trajectorySequenceBuilder(coneUnload.end())
-                .setTangent(-90)
-                .splineToSplineHeading(new Pose2d(25,11,Math.toRadians(180)),Math.toRadians(180))
-                .splineToSplineHeading( new Pose2d(11,25,Math.toRadians(90)),Math.toRadians(90))
+                .setTangent(210)
+                .splineToSplineHeading(new Pose2d(10,23,Math.toRadians(-90)),Math.toRadians(90))
+//                .splineToConstantHeading( new Vector2d(15,23),Math.toRadians(90))
                 .build();
 
         TrajectorySequence ParkLeft = drive.trajectorySequenceBuilder(coneUnload.end())
                 .setTangent(Math.toRadians(-50))
-                .splineToSplineHeading(new Pose2d(35, 25, Math.toRadians(0)),Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(70, 35),Math.toRadians(0))
+//                .splineToSplineHeading(new Pose2d(35, 25, Math.toRadians(0)),Math.toRadians(90))
+//                .splineToConstantHeading(new Vector2d(70, 35),Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(65,12,Math.toRadians(0)))
+
                 .build();
+
 
 
         waitForStart();
@@ -92,12 +92,13 @@ public class BlueLeftNew extends QRcode {
         armPos(armLoadCone);
         drive.followTrajectorySequence(Preload);
         //armPos(armHigh);
-        sleep(650);
+        sleep(450);
         armPos(armPreRelease);
+//        sleep(300);
         claw.setPosition(clawOpen);
         sleep(250);
         claw.setPosition(clawClose);
-        sleep(200);
+        sleep(100);
         elevatorGround();
         sleep(300);
 
@@ -108,15 +109,17 @@ public class BlueLeftNew extends QRcode {
             drive.followTrajectorySequence(coneLoad);
             claw.setPosition(clawClose);
             drive.setPoseEstimate(new Pose2d(63, drive.getPoseEstimate().getY(), drive.getPoseEstimate().getHeading()));
-            sleep(200);
+            sleep(100);
             elevatorTargetPosition(cones[i] + 350);
-//            sleep(200);
+            sleep(200);
             drive.followTrajectorySequence(coneUnload);
             // armPos(armHigh);
-            //sleep(100);
-            armPos(armPreRelease);
-            claw.setPosition(clawOpen);
             sleep(200);
+//            armPos(armMid);
+            armPos(armPreRelease);
+//            sleep(300);
+            claw.setPosition(clawOpen);
+            sleep(300);
             claw.setPosition(clawClose);
             sleep(200);
             elevatorGround();
@@ -142,10 +145,6 @@ public class BlueLeftNew extends QRcode {
             drive.followTrajectorySequence(ParkRight);
 
         }
-
-
-
-
 
     }
 }

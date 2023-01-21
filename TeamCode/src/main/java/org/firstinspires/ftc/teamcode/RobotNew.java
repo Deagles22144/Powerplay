@@ -24,7 +24,7 @@ public class RobotNew extends LinearOpMode {
 
     public static double powerDownElevator = 0.8;
 
-    int[] cones = {480, 330, 230, 200, 0};
+    int[] cones = {425, 275, 175, 95, 0};
 
     // cone 1 = 544  cone 2 = 460 cone 3 = 340 cone 4 = 200 cone 5 = 0
 
