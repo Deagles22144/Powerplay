@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -23,48 +24,49 @@ public class BlueRight5Cones extends QRcode {
 
         TrajectorySequence Preload = drive.trajectorySequenceBuilder(startPose)
                 .setTangent(Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(-37 , 5, Math.toRadians(-90)), Math.toRadians(-90))
-                /*.addDisplacementMarker(40, () -> {
+                .splineToSplineHeading(new Pose2d(-37 , 4, Math.toRadians(-90)), Math.toRadians(-90))
+                */
+/*.addDisplacementMarker(40, () -> {
                     armPos(0.6);
-                })*/
+                })*//*
+
                 .addDisplacementMarker(() -> {
                     elevatorMid();
                     armPos(armMid);
                 })
-                .lineToSplineHeading(new Pose2d(-32, 16, Math.toRadians(-130)))
+                .lineToSplineHeading(new Pose2d(-33, 15, Math.toRadians(-130)))
                 .build();
 
         TrajectorySequence coneLoad = drive.trajectorySequenceBuilder(Preload.end())
                 .setTangent(Math.toRadians(-135))
                 //.lineToLinearHeading((new Pose2d(58, 12, Math.toRadians(0))))
-                .splineToSplineHeading(new Pose2d(-40, 12, Math.toRadians(180)), Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(-65, 12, Math.toRadians(180)), Math.toRadians(180))
-                //.setTangent(Math.toRadians(0))
-                //.lineToLinearHeading(new Pose2d(58, 12, Math.toRadians(0)))
-                // .addDisplacementMarker(() -> {
-                //   claw.setPosition(clawOpen);
-                //})
-//                .forward(1, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-//                .waitSeconds(0.17)
+                .splineToSplineHeading(new Pose2d(-40, 13, Math.toRadians(180)), Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-66, 13, Math.toRadians(180)), Math.toRadians(180))
                 .build();
 
 
-        TrajectorySequence coneUnload = drive.trajectorySequenceBuilder(new Pose2d(-63,12, Math.toRadians(180))/*coneLoad.end()*/)
+        TrajectorySequence coneUnload = drive.trajectorySequenceBuilder(new Pose2d(-63,13, Math.toRadians(180))*/
+/*coneLoad.end()*//*
+)
                 .setTangent(Math.toRadians(0))
                 .addDisplacementMarker( () -> {
                     elevatorMid();
                     armPos(armMid);
                 })
-                .splineToSplineHeading(new Pose2d(-44,12,Math.toRadians(180)), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(-32.5, 15, Math.toRadians(-130)), Math.toRadians(35))
+                .splineToSplineHeading(new Pose2d(-44,13,Math.toRadians(180)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(-33, 13, Math.toRadians(-130)), Math.toRadians(35))
                 // .lineToLinearHeading(new Pose2d(58 , 15 ,Math.toRadians(-45)))
-                .waitSeconds(0.1)
-                /*.setTangent(45)
-                .lineToLinearHeading(new Pose2d(58, 15, Math.toRadians(-45)))*/
+                .waitSeconds(0.2)
+
+                */
+/*.setTangent(45)
+                .lineToLinearHeading(new Pose2d(58, 15, Math.toRadians(-45)))*//*
+
                 .build();
 
-        /** --------- Park Auto Trajectories ----------**/
+        */
+/** --------- Park Auto Trajectories ----------**//*
+
 
         TrajectorySequence ParkMid  = drive.trajectorySequenceBuilder(coneUnload.end())
                 .setTangent(180)
@@ -75,14 +77,14 @@ public class BlueRight5Cones extends QRcode {
                 .setTangent(Math.toRadians(180))
 //                .splineToSplineHeading(new Pose2d(-35, 30, Math.toRadians(180)),Math.toRadians(80 ))
 //                .splineToConstantHeading(new Vector2d(-65, 35),Math.toRadians(180))
-                .lineToLinearHeading(new Pose2d(-65,12,Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-65,12,Math.toRadians(180)))
                 .build();
 
         TrajectorySequence ParkLeft = drive.trajectorySequenceBuilder(coneUnload.end())
-                .setTangent(0)
+                .setTangent(-50)
                 //.splineToSplineHeading(new Pose2d(-26,12,Math.toRadians(0)),Math.toRadians(0))
                 //.splineToSplineHeading( new Pose2d(-12,25,Math.toRadians(90)),Math.toRadians(90))
-                .lineToLinearHeading(new Pose2d(12,14,Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-10,15,Math.toRadians(-90)))
                 .build();
 
 
@@ -151,4 +153,4 @@ public class BlueRight5Cones extends QRcode {
 
 
     }
-}
+}*/

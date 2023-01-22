@@ -17,7 +17,7 @@ public class TeleopMecanum extends RobotNew {
         double rx = gamepad1.right_stick_x;
 
         claw.setPosition(clawOpen);
-        armPos(armReset);
+        //armPos(armReset);
 
         waitForStart();
         elapsedTime.reset();
@@ -58,7 +58,7 @@ public class TeleopMecanum extends RobotNew {
                 armPos(arm0.getPosition() + 0.008);
             }
             else if (gamepad2.left_stick_y>0){
-                armPos(arm0.getPosition() - 0.01);
+                armPos(arm0.getPosition() - 0.008);
             }
         /** Elevator Up**/
         if(gamepad2.right_trigger >= 0.1) {
