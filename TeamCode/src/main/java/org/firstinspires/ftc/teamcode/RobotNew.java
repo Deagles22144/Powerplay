@@ -300,8 +300,8 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Config
 public class RobotNew extends LinearOpMode {
-    public static int elevatoeHighPos = 1500;
-    public static int elevatorMiddlePos = 650;
+    public static int elevatoeHighPos = 1550;
+    public static int elevatorMiddlePos = 700; // 650
     public static int elevatorLowPos = 0;
     public static int elevatorGroundPos = 0;
 
@@ -311,7 +311,7 @@ public class RobotNew extends LinearOpMode {
 
     // cone 1 = 544  cone 2 = 460 cone 3 = 340 cone 4 = 200 cone 5 = 0
 
-    public static double clawClose = 0.12;
+    public static double clawClose = 0.15;
     public static double clawOpen = 0.0;
 
 
@@ -324,11 +324,11 @@ public class RobotNew extends LinearOpMode {
 
 
     public static double armHighAuto = 1;
-    public static double armHigh = 0.73;
-    public static double armMid = 0.71;
-    public static double armLow = 0.75;
-    public static double armGround = 0.18;
-    public static double armPreRelease = 0.77;
+    public static double armHigh = 0.66;
+    public static double armMid = 0.66;
+    public static double armLow = 0.7;
+    public static double armGround = 0.1;
+    public static double armPreRelease = 0.73;
     public static double armLoadCone = 0.6;
 
 

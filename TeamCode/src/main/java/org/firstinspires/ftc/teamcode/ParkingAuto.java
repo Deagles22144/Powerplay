@@ -1,71 +1,47 @@
+/*
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-
-@Autonomous (name="ParkingAuto", group="AutoLeft")
-public class ParkingAuto extends QRcode {
+@Autonomous (name="ParkingAuto", group="Robot")
+public class ParkingAuto extends QRcode{
 
 
     @Override
     public void runOpMode() {
         super.runOpMode();
 
-        Pose2d startPose = new Pose2d(36, 65, Math.toRadians(-90));
-        drive.setPoseEstimate(startPose);
-
         while (!isStarted() && !isStopRequested()) {
             QrScan();
         }
 
 
-
-
-        /** --------- Park Auto Trajectories ----------**/
-
-        TrajectorySequence ParkMid  = drive.trajectorySequenceBuilder(startPose)
-                .setTangent(-90)
-                .lineToLinearHeading(new Pose2d(36,30,Math.toRadians(-90)))
-                .build();
-
-        TrajectorySequence ParkRight = drive.trajectorySequenceBuilder(startPose)
-                .setTangent(-90)
-                .splineToSplineHeading(new Pose2d(36,48,Math.toRadians(-90)),Math.toRadians(-90))
-                .splineToSplineHeading( new Pose2d(12,35,Math.toRadians(180)),Math.toRadians(180))
-                .build();
-
-        TrajectorySequence ParkLeft = drive.trajectorySequenceBuilder(startPose)
-                .setTangent(Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(36, 45, Math.toRadians(-90)),Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(65, 36,Math.toRadians(0)),Math.toRadians(10))
-                .build();
-
-
         waitForStart();
 
+        armPos(0.02);
 
-        if (tagOfInterest == null || tagOfInterest.id == parkLeft)
-        {
+        if (tagOfInterest == null || tagOfInterest.id == left) {
             //left code
-            drive.followTrajectorySequence(ParkLeft);
-
-        } else if (tagOfInterest.id == parkMiddle)
-        {
+            encoderDriveP(1,-10,-10,-10,-10,0.019,2);
+            RotateP(-90,1,2,0.019);
+            encoderDriveP(1,55,55,55,55,0.019,2);
+            RotateP(-180,1,2,0.019);
+            encoderDriveP(1,60,60,60,60,0.019,2);
+            RotateP(-180,1,2,0.019);
+        } else if (tagOfInterest.id == middle) {
             //middle code
-            drive.followTrajectorySequence(ParkMid);
-
-        } else if (tagOfInterest.id == parkRight)
-        {
-            //right code
-            drive.followTrajectorySequence(ParkRight);
-
+            encoderDriveP(1, -60, -60, -60, -60, 0.019, 1);
+            RotateP(-180,1,2,0.019);
         }
-
-
-
-
-
+         else if (tagOfInterest.id == right) {
+            //right code
+            encoderDriveP(1, -10, -10, -10, -10, 0.019, 2);
+            RotateP(90, 1, 2, 0.019);
+            encoderDriveP(1, 50, 50, 50, 50, 0.019, 2);
+            RotateP(0, 1, 2, 0.019);
+            encoderDriveP(1, -65, -65, -65, -65, 0.019, 2);
+            RotateP(-180,1,2,0.019);
+        }
     }
 }
+*/

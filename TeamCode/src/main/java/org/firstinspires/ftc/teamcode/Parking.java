@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-
 @Disabled
 @Autonomous (name="Parking", group="Parking")
 public class Parking extends QRcode {
