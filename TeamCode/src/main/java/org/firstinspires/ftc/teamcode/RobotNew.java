@@ -113,7 +113,6 @@ public class RobotNew extends LinearOpMode {
         //tilt1.setDirection(Servo.Direction.REVERSE);
         //claw.setDirection(Servo.Direction.REVERSE);
 
-
         arm1.setDirection(Servo.Direction.REVERSE);
 
 
@@ -287,8 +286,10 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -301,18 +302,19 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Config
 public class RobotNew extends LinearOpMode {
     public static int elevatoeHighPos = 1550;
-    public static int elevatorMiddlePos = 700; // 650
+    public static int elevatorMiddlePos =540 ; // 650
     public static int elevatorLowPos = 0;
     public static int elevatorGroundPos = 0;
 
     public static double powerDownElevator = 0.8;
 
-    int[] cones = {475, 375, 275, 200, 0};
+    int[] cones = {525, 425, 325, 200, 0};
 
     // cone 1 = 544  cone 2 = 460 cone 3 = 340 cone 4 = 200 cone 5 = 0
 
-    public static double clawClose = 0.15;
-    public static double clawOpen = 0.0;
+    public static double clawClose = 0.12;
+    public static double clawOpen = 0.015
+            ;
 
 
 
@@ -327,13 +329,17 @@ public class RobotNew extends LinearOpMode {
     public static double armHigh = 0.66;
     public static double armMid = 0.66;
     public static double armLow = 0.7;
-    public static double armGround = 0.1;
+    public static double armGround = 0.13;
     public static double armPreRelease = 0.73;
-    public static double armLoadCone = 0.6;
+    public static double armLoadCone = 0.55;
+    public static double coneFliperClose = 0.33 ;
+    public static double coneFliperOpen = 0.0;
 
 
 
     public static double tiltAuto = 0;
+
+    public static boolean checkSensor = false;
 
     boolean isGround = true;
 
@@ -346,7 +352,8 @@ public class RobotNew extends LinearOpMode {
 
     public SampleMecanumDrive drive;
     public DcMotor elevator0,elevator1;
-    public Servo claw , arm0, arm1/*,tilt0,tilt1*/;
+    public Servo claw , arm0, arm1, coneFliper/*,tilt0,tilt1*/;
+    public ColorRangeSensor colorSensor;
     public ElapsedTime runtime = new ElapsedTime();
 
 
@@ -381,6 +388,9 @@ public class RobotNew extends LinearOpMode {
         arm0 = hardwareMap.servo.get("arm0");
         arm1 = hardwareMap.servo.get("arm1");
 
+        coneFliper = hardwareMap.servo.get("coneFliper");
+
+        colorSensor = (ColorRangeSensor) hardwareMap.get(NormalizedColorSensor.class, "sensor_color");
 
         elevator0.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         elevator1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -393,6 +403,8 @@ public class RobotNew extends LinearOpMode {
 
 
         arm1.setDirection(Servo.Direction.REVERSE);
+//        coneFliper.setDirection(Servo.Direction.REVERSE);
+
 
 
         elevator0.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -408,6 +420,7 @@ public class RobotNew extends LinearOpMode {
 
         claw.setPosition(clawClose);
         armPos(armGround);
+        coneFliper.setPosition(coneFliperOpen);
         //tiltPos(tiltGround);
 
 
@@ -529,12 +542,21 @@ public class RobotNew extends LinearOpMode {
         elevatorPower(0.1);
         elevatorSetMode();*/
         armPos(armGround);
+        timerBrake1 = true;
         elevatorTargetPosition(elevatorGroundPos);
         elevatorPower(powerDownElevator);
         elevatorSetMode();
         // tiltPos(tiltGround);
-        claw.setPosition(clawClose);
+//        claw.setPosition(clawClose);
         close = false;
+        elapsedTime.reset();
+        timerBrake = false;
+        // timerBrake2 = true;
+        isGround  = true;
+        isLow = false;
+        isMid = false;
+        isHigh = false;
+//
     }
 
 
@@ -545,6 +567,7 @@ public class RobotNew extends LinearOpMode {
             wasPressed = false;
             timerBrake = true;
             elapsedTime.reset();
+            isGround = false;
         }
 
         if (close) {

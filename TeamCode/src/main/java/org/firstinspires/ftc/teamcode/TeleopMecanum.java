@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 
 @TeleOp(name="TeleopMecanum", group="Robot")
 public class TeleopMecanum extends RobotNew {
@@ -23,11 +25,21 @@ public class TeleopMecanum extends RobotNew {
         elapsedTime.reset();
         while (opModeIsActive() && !isStopRequested()) {
 
+            if (claw.getPosition()== clawOpen ) {
+                checkSensor = true;
+            }
+
+            if (colorSensor.getDistance(DistanceUnit.MM)<40 && checkSensor && isGround){
+                ToggleClaw();
+                checkSensor = false;
+            }
+
 
             double botHeading = -imu.getAngularOrientation().firstAngle /*- Math.PI*/;
 
             double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
             double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
+
 
 
             double denominator = Math.max(Math.abs(y)+Math.abs(x)+Math.abs(rx),1);
@@ -76,6 +88,14 @@ public class TeleopMecanum extends RobotNew {
 //        }
 
 
+        /***conefliper***/
+        if (gamepad1.square && arm0.getPosition()> 0.5){
+            coneFliper.setPosition(coneFliperClose);
+        }
+        else if (gamepad1.triangle){
+            coneFliper.setPosition(coneFliperOpen);
+        }
+
         /***Elevator HIGH***/
         if (gamepad2.dpad_up) {
             elapsedTime.reset();
@@ -91,7 +111,7 @@ public class TeleopMecanum extends RobotNew {
 //            tiltPos(tiltHigh);
 //            elevatorHighAuto();
         }
-            if (elevator1.getCurrentPosition() >= elevatoeHighPos - 50 && elevator1.getCurrentPosition() <= elevatoeHighPos + 50 && isHigh) {
+            if (elevator1.getCurrentPosition() >= elevatoeHighPos - 150 && elevator1.getCurrentPosition() <= elevatoeHighPos + 50 && isHigh) {
                 armPos(armHigh);
                 isHigh = false;
             }
@@ -143,10 +163,9 @@ public class TeleopMecanum extends RobotNew {
 
         /***-------Elevator Ground***/
 
-        if (gamepad2.dpad_right) {
+        if (gamepad2.dpad_right && coneFliper.getPosition() == coneFliperOpen) {
             elapsedTime.reset();
             timerBrake = false;
-            timerBrake1 = true;
            // timerBrake2 = true;
             isGround  = true;
             isLow = false;
@@ -155,12 +174,20 @@ public class TeleopMecanum extends RobotNew {
 //            timerBrakeMid = false;
             elevatorGround();
         }
+
+//        if (arm0.getPosition()> armGround){
+//            isGround = false;
+//        }
+//        else {
+//            isGround = true;
+//        }
+
     //    if (timerBrake1 && elapsedTime.seconds() >= 0.05) {
       //      claw.setPosition(clawClose);
         //    timerBrake1 = false;
         //}
 
-        if (timerBrake1 && elapsedTime.seconds() >= 0.7) {
+        if (timerBrake1 && elapsedTime.seconds() >= 0.2) {
                 claw.setPosition(clawOpen);
                 timerBrake1 = false;
         }
@@ -191,13 +218,6 @@ public class TeleopMecanum extends RobotNew {
 
 
 
-        if (gamepad2.right_stick_y<0 /*&& tilt0.getPosition()<0.1*/){
-           // tiltPos(tilt0.getPosition()+0.004);
-        }
-        else if (gamepad2.right_stick_y>0){
-          //  tiltPos(tilt0.getPosition()-0.004);
-        }
-
         if (rightBumper) {
             ToggleClaw();
         }
@@ -211,8 +231,15 @@ public class TeleopMecanum extends RobotNew {
             close = false;
         }
 
-        if (elapsedTime.seconds() >= 0.3 && timerBrake && claw.getPosition() == clawClose && arm0.getPosition() == armHigh) {
-            armPos(armHigh);
+        if (elapsedTime.seconds() >= 0.3 && timerBrake && claw.getPosition() == clawClose && arm0.getPosition() == armHigh ) {
+            armPos(armLoadCone);
+            close = true;
+        }
+
+        if (elapsedTime.seconds() >= 0.3 && timerBrake && arm0.getPosition()== armLoadCone && elevator1.getCurrentPosition()>= elevatorMiddlePos-50){
+            armPos(armLoadCone);
+            elevatorGround();
+            close = false;
         }
 
         if (!rightBumper) {

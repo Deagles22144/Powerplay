@@ -2,7 +2,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
@@ -35,7 +34,8 @@ public class BlueLeft4Cones extends QRcode {
                     elevatorMid();
                     armPos(armMid);
                 })
-                .lineToSplineHeading(new Pose2d(32, 16, Math.toRadians(-50)))
+                .lineToSplineHeading(new Pose2d(32, 18, Math.toRadians(-50)), SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
         TrajectorySequence coneLoad = drive.trajectorySequenceBuilder(Preload.end())
@@ -48,20 +48,21 @@ public class BlueLeft4Cones extends QRcode {
                 // .addDisplacementMarker(() -> {
                 //   claw.setPosition(clawOpen);
                 //})
-                .forward(4.25, SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                .forward(4, SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .waitSeconds(0.17)
+//                .waitSeconds(0.05)
                 .build();
 
 
         TrajectorySequence coneUnload = drive.trajectorySequenceBuilder(new Pose2d(63,13, Math.toRadians(0))/*coneLoad.end()*/)
                 .setTangent(Math.toRadians(180))
                 .addDisplacementMarker( () -> {
-                    elevatorMid();
                     armPos(armMid);
+                    elevatorMid();
                 })
-                .splineToSplineHeading(new Pose2d(44,12,Math.toRadians(0)), Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(31, 15, Math.toRadians(-50)), Math.toRadians(145))
+                .splineToSplineHeading(new Pose2d(44,12,Math.toRadians(0)), Math.toRadians(180), SampleMecanumDrive.getVelocityConstraint(28, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                .splineToSplineHeading(new Pose2d(32, 17, Math.toRadians(-50)), Math.toRadians(145))
                 // .lineToLinearHeading(new Pose2d(58 , 15 ,Math.toRadians(-45)))
                 .waitSeconds(0.2)
                 /*.setTangent(45)
@@ -83,20 +84,24 @@ public class BlueLeft4Cones extends QRcode {
 
         TrajectorySequence ParkLeft = drive.trajectorySequenceBuilder(coneUnload.end())
                 .setTangent(Math.toRadians(-50))
-                .splineToSplineHeading(new Pose2d(35, 25, Math.toRadians(0)),Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(70, 35),Math.toRadians(0))
+//                .splineToSplineHeading(new Pose2d(35, 25, Math.toRadians(0)),Math.toRadians(90))
+//                .splineToConstantHeading(new Vector2d(70, 35),Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(65,12,Math.toRadians(0)))
+
                 .build();
 
+
+        coneFliper.setPosition(coneFliperOpen);
 
         waitForStart();
 
         armPos(0.6);
         drive.followTrajectorySequence(Preload);
         //armPos(armHigh);
-        sleep(850);
+        sleep(500);
         armPos(armPreRelease);
         claw.setPosition(clawOpen);
-        sleep(275);
+        sleep(250);
         claw.setPosition(clawClose);
         sleep(200);
         elevatorGround();
@@ -113,11 +118,11 @@ public class BlueLeft4Cones extends QRcode {
             elevatorTargetPosition(cones[i] + 350);
             sleep(200);
             drive.followTrajectorySequence(coneUnload);
-            // armPos(armHigh);
-            //sleep(100);
+            armPos(armMid);
+            sleep(600);
             armPos(armPreRelease);
             claw.setPosition(clawOpen);
-            sleep(200);
+            sleep(300);
             claw.setPosition(clawClose);
             sleep(200);
             elevatorGround();
