@@ -33,7 +33,7 @@ public class BlueLeft4Cones extends QRcode {
                 .addDisplacementMarker(() -> {
                     elevatorMid();
                     armPos(armMid);
-                    coneFliper.setPosition(coneFliperOpen);
+//                    coneFliper.setPosition(coneFliperOpen);
                 })
                 .lineToSplineHeading(new Pose2d(29, 18 , Math.toRadians(-50)), SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
@@ -102,12 +102,14 @@ public class BlueLeft4Cones extends QRcode {
         waitForStart();
 
         armPos(armLoadCone);
-        coneFliper.setPosition(coneFliperClose);
+        sleep(300);
+        coneFliper.setPosition(coneFliperClose+0.2);
         drive.followTrajectorySequence(Preload);
         //armPos(armHigh);
         sleep(500);
         armPos(armPreRelease);
         claw.setPosition(clawOpen);
+        coneFliper.setPosition(coneFliperOpen);
         sleep(250);
         claw.setPosition(clawClose);
         sleep(200);
