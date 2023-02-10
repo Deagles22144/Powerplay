@@ -199,7 +199,7 @@ public class BlueRight4Cones extends QRcode {
                     elevatorMid();
                     armPos(armMid);
                 })
-                .lineToSplineHeading(new Pose2d(-30, 18, Math.toRadians(-130)), SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                .lineToSplineHeading(new Pose2d(-32, 18, Math.toRadians(-130)), SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
 //                .addDisplacementMarker(() -> {
 //                coneFliper.setPosition(coneFliperOpen);
@@ -233,7 +233,7 @@ public class BlueRight4Cones extends QRcode {
                 .addDisplacementMarker( () -> {
                     armPos(armMid);
                 })
-                .splineToSplineHeading(new Pose2d(-30, 18, Math.toRadians(-130)), Math.toRadians(45))
+                .splineToSplineHeading(new Pose2d(-33, 17, Math.toRadians(-130)), Math.toRadians(45))
                 // .lineToLi    nearHeading(new Pose2d(58 , 15 ,Math.toRadians(-45)))
 //                .waitSeconds(0.2)
 
@@ -259,7 +259,7 @@ public class BlueRight4Cones extends QRcode {
                 .setTangent(30)
 //                .splineToSplineHeading(new Pose2d(-26,12,Math.toRadians(0)),Math.toRadians(0))
 //                .splineToSplineHeading( new Pose2d(-12,25,Math.toRadians(90)),Math.toRadians(90))
-                .lineToLinearHeading(new Pose2d(-9,11,Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-10,12,Math.toRadians(-90)))
                 .back(5)
                 .build();
 
@@ -267,14 +267,13 @@ public class BlueRight4Cones extends QRcode {
 
         waitForStart();
         armPos(armLoadCone);
-        sleep(250);
-       // coneFliper.setPosition(coneFliperClose-0.2);
-        sleep(200);
+        // coneFliper.setPosition(coneFliperClose+0.2);
         drive.followTrajectorySequence(Preload);
         //armPos(armHigh);
         sleep(500);
         armPos(armPreRelease);
         claw.setPosition(clawOpen);
+        // coneFliper.setPosition(coneFliperOpen);
         sleep(250);
         claw.setPosition(clawClose);
         sleep(200);
@@ -284,7 +283,6 @@ public class BlueRight4Cones extends QRcode {
         for (int i = 0; i < 3; i++) {
 
             elevatorAuto(cones[i]);
-
             claw.setPosition(clawOpen);
             drive.followTrajectorySequence(coneLoad);
             claw.setPosition(clawClose);
@@ -297,7 +295,7 @@ public class BlueRight4Cones extends QRcode {
             sleep(900);
             armPos(armPreRelease);
             claw.setPosition(clawOpen);
-            sleep(350);
+            sleep(500);
             claw.setPosition(clawClose);
             sleep(200);
             elevatorGround();
@@ -323,9 +321,6 @@ public class BlueRight4Cones extends QRcode {
             drive.followTrajectorySequence(ParkRight);
 
         }
-
-
-
 
     }
 }

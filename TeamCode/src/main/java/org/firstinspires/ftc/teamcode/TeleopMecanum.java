@@ -29,7 +29,7 @@ public class TeleopMecanum extends RobotNew {
                 checkSensor = true;
             }
 
-            if (colorSensor.getDistance(DistanceUnit.MM)<40 && checkSensor && isGround){
+            if (colorSensor.getDistance(DistanceUnit.MM)<30 && checkSensor && isGround){
                 ToggleClaw();
                 checkSensor = false;
             }
@@ -206,9 +206,9 @@ public class TeleopMecanum extends RobotNew {
             rx = gamepad1.right_stick_x / 2;
         }
         else if (gamepad1.left_trigger > 0.5) {
-                y = -gamepad1.left_stick_y / 10;
-                x = gamepad1.left_stick_x / 10;
-                rx = gamepad1.right_stick_x / 10;
+                y = -gamepad1.left_stick_y / 5;
+                x = gamepad1.left_stick_x / 5;
+                rx = gamepad1.right_stick_x / 5;
             }
             else {
             y = -gamepad1.left_stick_y ;

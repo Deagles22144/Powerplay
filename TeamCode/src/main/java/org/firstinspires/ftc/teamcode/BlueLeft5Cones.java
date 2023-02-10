@@ -1,9 +1,11 @@
-/*
+
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous (name="BlueLeft5Cones", group="AutoLeft")
@@ -24,82 +26,107 @@ public class BlueLeft5Cones extends QRcode {
 
         TrajectorySequence Preload = drive.trajectorySequenceBuilder(startPose)
                 .setTangent(Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(37 , 4, Math.toRadians(-90)), Math.toRadians(-90))
-                */
-/*.addDisplacementMarker(40, () -> {
+                .splineToSplineHeading(new Pose2d(36 , 5, Math.toRadians(-90)), Math.toRadians(-90), SampleMecanumDrive.getVelocityConstraint(70, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                /*.addDisplacementMarker(40, () -> {
                     armPos(0.6);
-                })*//*
-
+                })*/
                 .addDisplacementMarker(() -> {
-                    elevatorMid();
+                    elevatorTargetPosition(elevatorMiddlePos-100);
+                    // armPos(armMid);
+                    elevatorPower(1);
+                    elevatorSetMode();
                     armPos(armMid);
+//                    coneFliper.setPosition(coneFliperOpen);
                 })
-                .lineToSplineHeading(new Pose2d(33, 15, Math.toRadians(-50)))
+                .lineToSplineHeading(new Pose2d(31, 18 , Math.toRadians(-50)), SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
         TrajectorySequence coneLoad = drive.trajectorySequenceBuilder(Preload.end())
-                .setTangent(Math.toRadians(-45))
+                .setTangent(Math.toRadians(-50))
                 //.lineToLinearHeading((new Pose2d(58, 12, Math.toRadians(0))))
-                .splineToSplineHeading(new Pose2d(40, 12, Math.toRadians(0)), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(66, 12, Math.toRadians(0)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(40, 14, Math.toRadians(0)), Math.toRadians(0) , SampleMecanumDrive.getVelocityConstraint(70, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                .splineToSplineHeading(new Pose2d(66, 14, Math.toRadians(0)), Math.toRadians(0) , SampleMecanumDrive.getVelocityConstraint(70, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                //.setTangent(Math.toRadians(0))
+                //.lineToLinearHeading(new Pose2d(58, 12, Math.toRadians(0)))
+                // .addDisplacementMarker(() -> {
+                //   claw.setPosition(clawOpen);
+                //})
+//                .forward(4, SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+//                .waitSeconds(0.05)
                 .build();
 
 
-        TrajectorySequence coneUnload = drive.trajectorySequenceBuilder(new Pose2d(63,13, Math.toRadians(0))*/
-/*coneLoad.end()*//*
-)
+        TrajectorySequence coneUnload = drive.trajectorySequenceBuilder(new Pose2d(63,13, Math.toRadians(0))/*coneLoad.end()*/)
                 .setTangent(Math.toRadians(180))
                 .addDisplacementMarker( () -> {
-                    elevatorMid();
+                    armPos(armMid-0.3);
+                    elevatorTargetPosition(elevatorMiddlePos-100);
+                    // armPos(armMid);
+                    elevatorPower(1);
+                    elevatorSetMode();
+                })
+                .splineToSplineHeading(new Pose2d(45,14,Math.toRadians(0)), Math.toRadians(180), SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                .addDisplacementMarker( () -> {
                     armPos(armMid);
                 })
-                .splineToSplineHeading(new Pose2d(44,12,Math.toRadians(0)), Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(33, 13, Math.toRadians(-50)), Math.toRadians(145))
+                .splineToSplineHeading(new Pose2d(31, 16, Math.toRadians(-60)), Math.toRadians(145), SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 // .lineToLinearHeading(new Pose2d(58 , 15 ,Math.toRadians(-45)))
-                .waitSeconds(0.2)
-                */
-/*.setTangent(45)
-                .lineToLinearHeading(new Pose2d(58, 15, Math.toRadians(-45)))*//*
-
+//                .waitSeconds(0.2)
+                /*.setTangent(45)
+                .lineToLinearHeading(new Pose2d(58, 15, Math.toRadians(-45)))*/
                 .build();
 
-        */
-/** --------- Park Auto Trajectories ----------**//*
-
+        /** --------- Park Auto Trajectories ----------**/
 
         TrajectorySequence ParkMid  = drive.trajectorySequenceBuilder(coneUnload.end())
                 .setTangent(0)
-                .lineToLinearHeading(new Pose2d(38,20,Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(38,20,Math.toRadians(-90)),
+                        SampleMecanumDrive.getVelocityConstraint(70, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
         TrajectorySequence ParkRight = drive.trajectorySequenceBuilder(coneUnload.end())
                 .setTangent(210)
-                .lineToLinearHeading(new Pose2d(10,15,Math.toRadians(-90)))
-//                .splineToConstantHeading( new Vector2d(15,23),Math.toRadians(90))
+//                .splineToSplineHeading(new Pose2d(25,11,Math.toRadians(180)),Math.toRadians(180))
+//                .splineToSplineHeading( new Pose2d(11,25,Math.toRadians(90)),Math.toRadians(90))
+                .lineToLinearHeading(new Pose2d(9,12,Math.toRadians(-90)) ,SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                               .back(4, SampleMecanumDrive.getVelocityConstraint(70, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
         TrajectorySequence ParkLeft = drive.trajectorySequenceBuilder(coneUnload.end())
                 .setTangent(Math.toRadians(-50))
 //                .splineToSplineHeading(new Pose2d(35, 25, Math.toRadians(0)),Math.toRadians(90))
 //                .splineToConstantHeading(new Vector2d(70, 35),Math.toRadians(0))
-                .lineToLinearHeading(new Pose2d(65,12,Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(62,12,Math.toRadians(0)), SampleMecanumDrive.getVelocityConstraint(70, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
 
                 .build();
 
 
+        coneFliper.setPosition(coneFliperOpen);
 
         waitForStart();
 
         armPos(armLoadCone);
+        // coneFliper.setPosition(coneFliperClose+0.2);
         drive.followTrajectorySequence(Preload);
         //armPos(armHigh);
-        sleep(450);
+        sleep(600);
         armPos(armPreRelease);
-//        sleep(300);
         claw.setPosition(clawOpen);
+        // coneFliper.setPosition(coneFliperOpen);
         sleep(250);
         claw.setPosition(clawClose);
-        sleep(100);
+        sleep(200);
         elevatorGround();
         sleep(300);
 
@@ -110,17 +137,15 @@ public class BlueLeft5Cones extends QRcode {
             drive.followTrajectorySequence(coneLoad);
             claw.setPosition(clawClose);
             drive.setPoseEstimate(new Pose2d(63, drive.getPoseEstimate().getY(), drive.getPoseEstimate().getHeading()));
-            sleep(100);
+            sleep(200);
             elevatorTargetPosition(cones[i] + 350);
-            sleep(200);
+//            sleep(100);
             drive.followTrajectorySequence(coneUnload);
-            // armPos(armHigh);
-            sleep(200);
-//            armPos(armMid);
+            armPos(armMid);
+            sleep(500);
             armPos(armPreRelease);
-//            sleep(300);
             claw.setPosition(clawOpen);
-            sleep(300);
+            sleep(500);
             claw.setPosition(clawClose);
             sleep(200);
             elevatorGround();
@@ -147,6 +172,9 @@ public class BlueLeft5Cones extends QRcode {
 
         }
 
+
+
+
+
     }
 }
-*/

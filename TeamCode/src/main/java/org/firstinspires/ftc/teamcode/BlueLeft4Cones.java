@@ -31,11 +31,15 @@ public class BlueLeft4Cones extends QRcode {
                     armPos(0.6);
                 })*/
                 .addDisplacementMarker(() -> {
-                    elevatorMid();
+                    elevatorTargetPosition(elevatorMiddlePos-100);
+                    // armPos(armMid);
+                    elevatorPower(1);
+                    elevatorSetMode();
+                    armPos(armMid);
                     armPos(armMid);
 //                    coneFliper.setPosition(coneFliperOpen);
                 })
-                .lineToSplineHeading(new Pose2d(30, 18 , Math.toRadians(-50)), SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                .lineToSplineHeading(new Pose2d(31, 17 , Math.toRadians(-50)), SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
@@ -66,7 +70,7 @@ public class BlueLeft4Cones extends QRcode {
                 .addDisplacementMarker( () -> {
                     armPos(armMid);
                 })
-                .splineToSplineHeading(new Pose2d(30, 17, Math.toRadians(-50)), Math.toRadians(145))
+                .splineToSplineHeading(new Pose2d(31, 16, Math.toRadians(-50)), Math.toRadians(145))
                 // .lineToLinearHeading(new Pose2d(58 , 15 ,Math.toRadians(-45)))
 //                .waitSeconds(0.2)
                 /*.setTangent(45)
@@ -102,8 +106,7 @@ public class BlueLeft4Cones extends QRcode {
         waitForStart();
 
         armPos(armLoadCone);
-        sleep(300);
-       // coneFliper.setPosition(coneFliperClose+0.2);
+        // coneFliper.setPosition(coneFliperClose+0.2);
         drive.followTrajectorySequence(Preload);
         //armPos(armHigh);
         sleep(500);
@@ -157,10 +160,5 @@ public class BlueLeft4Cones extends QRcode {
             drive.followTrajectorySequence(ParkRight);
 
         }
-
-
-
-
-
     }
 }
