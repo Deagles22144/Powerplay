@@ -332,8 +332,8 @@ public class RobotNew extends LinearOpMode {
     public static double armGround = 0.13;
     public static double armPreRelease = 0.73;
     public static double armLoadCone = 0.55;
-    public static double coneFliperClose = 0.33 ;
-    public static double coneFliperOpen = 0.0;
+    public static double coneFliperClose = 0.41 ;
+    public static double coneFliperOpen = 0.05;
 
 
 

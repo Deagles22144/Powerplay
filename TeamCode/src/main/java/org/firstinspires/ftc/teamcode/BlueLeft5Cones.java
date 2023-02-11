@@ -3,16 +3,16 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-
+@Disabled
 @Autonomous (name="BlueLeft5Cones", group="AutoLeft")
 public class BlueLeft5Cones extends QRcode {
 
-
-    @Override
+@Override
     public void runOpMode() {
         super.runOpMode();
 
@@ -26,7 +26,7 @@ public class BlueLeft5Cones extends QRcode {
 
         TrajectorySequence Preload = drive.trajectorySequenceBuilder(startPose)
                 .setTangent(Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(36 , 5, Math.toRadians(-90)), Math.toRadians(-90), SampleMecanumDrive.getVelocityConstraint(70, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                .splineToSplineHeading(new Pose2d(36 , 10, Math.toRadians(-90)), Math.toRadians(-90), SampleMecanumDrive.getVelocityConstraint(70, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 /*.addDisplacementMarker(40, () -> {
                     armPos(0.6);
@@ -37,7 +37,7 @@ public class BlueLeft5Cones extends QRcode {
                     elevatorPower(1);
                     elevatorSetMode();
                     armPos(armMid);
-//                    coneFliper.setPosition(coneFliperOpen);
+                    coneFliper.setPosition(coneFliperOpen);
                 })
                 .lineToSplineHeading(new Pose2d(31, 18 , Math.toRadians(-50)), SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
@@ -117,7 +117,8 @@ public class BlueLeft5Cones extends QRcode {
         waitForStart();
 
         armPos(armLoadCone);
-        // coneFliper.setPosition(coneFliperClose+0.2);
+        sleep(200);
+         coneFliper.setPosition(coneFliperClose+0.2);
         drive.followTrajectorySequence(Preload);
         //armPos(armHigh);
         sleep(600);

@@ -163,7 +163,14 @@ public class TeleopMecanum extends RobotNew {
 
         /***-------Elevator Ground***/
 
-        if (gamepad2.dpad_right && coneFliper.getPosition() == coneFliperOpen) {
+        if (gamepad2.dpad_right && coneFliper.getPosition() <
+
+
+
+
+
+
+                coneFliperClose) {
             elapsedTime.reset();
             timerBrake = false;
            // timerBrake2 = true;
@@ -174,6 +181,7 @@ public class TeleopMecanum extends RobotNew {
 //            timerBrakeMid = false;
             elevatorGround();
         }
+
 
 //        if (arm0.getPosition()> armGround){
 //            isGround = false;

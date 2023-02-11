@@ -1,15 +1,14 @@
 
-package org.firstinspires.ftc.teamcode;
 
+package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous (name="BlueLeft4Cones", group="AutoLeft")
-public class BlueLeft4Cones extends QRcode {
+@Autonomous (name="ForwardLeftAuto", group="AutoLeft")
+public class ForwardLeftAuto extends QRcode {
 
 
     @Override
@@ -26,7 +25,7 @@ public class BlueLeft4Cones extends QRcode {
 
         TrajectorySequence Preload = drive.trajectorySequenceBuilder(startPose)
                 .setTangent(Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(36 , 10, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(36 , 4, Math.toRadians(-90)), Math.toRadians(-90))
                 /*.addDisplacementMarker(40, () -> {
                     armPos(0.6);
                 })*/
@@ -37,10 +36,9 @@ public class BlueLeft4Cones extends QRcode {
                     elevatorSetMode();
                     armPos(armMid);
                     armPos(armMid);
-                    coneFliper.setPosition(coneFliperOpen);
 //                    coneFliper.setPosition(coneFliperOpen);
                 })
-                .lineToSplineHeading(new Pose2d(30, 19, Math.toRadians(-50)), SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                .lineToSplineHeading(new Pose2d(30, 18 , Math.toRadians(-50)), SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
@@ -71,7 +69,7 @@ public class BlueLeft4Cones extends QRcode {
                 .addDisplacementMarker( () -> {
                     armPos(armMid);
                 })
-                .splineToSplineHeading(new Pose2d(30, 17, Math.toRadians(-50)), Math.toRadians(145))
+                .splineToSplineHeading(new Pose2d(31, 16, Math.toRadians(-50)), Math.toRadians(145))
                 // .lineToLinearHeading(new Pose2d(58 , 15 ,Math.toRadians(-45)))
 //                .waitSeconds(0.2)
                 /*.setTangent(45)
@@ -110,14 +108,13 @@ public class BlueLeft4Cones extends QRcode {
         waitForStart();
 
         armPos(armLoadCone);
-        sleep(200);
-         coneFliper.setPosition(coneFliperClose+0.05);
+        // coneFliper.setPosition(coneFliperClose+0.2);
         drive.followTrajectorySequence(Preload);
         //armPos(armHigh);
         sleep(500);
         armPos(armPreRelease);
         claw.setPosition(clawOpen);
-       // coneFliper.setPosition(coneFliperOpen);
+        // coneFliper.setPosition(coneFliperOpen);
         sleep(450);
         claw.setPosition(clawClose);
         sleep(200);
